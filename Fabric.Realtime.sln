@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime", "Fabric.Realtime\Fabric.Realtime.csproj", "{E3DE73CF-71C1-46B3-BB3E-5E5DD0981F3B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{02273D01-1463-4DBB-8AAE-ADECCC6E1351}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3DE73CF-71C1-46B3-BB3E-5E5DD0981F3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3DE73CF-71C1-46B3-BB3E-5E5DD0981F3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3DE73CF-71C1-46B3-BB3E-5E5DD0981F3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3DE73CF-71C1-46B3-BB3E-5E5DD0981F3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02273D01-1463-4DBB-8AAE-ADECCC6E1351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02273D01-1463-4DBB-8AAE-ADECCC6E1351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02273D01-1463-4DBB-8AAE-ADECCC6E1351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02273D01-1463-4DBB-8AAE-ADECCC6E1351}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

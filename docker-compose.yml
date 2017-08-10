@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  fabric.realtime:
+    image: fabric.realtime
+    build:
+      context: ./Fabric.Realtime
+      dockerfile: Dockerfile
