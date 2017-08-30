@@ -34,8 +34,8 @@
         public IEnumerable<Message> Get()
         {
             // Return simple list of messages for demo purposes
-            DbSet<Message> setOfMessages = this._realtimeContext.Messages;
-            var simpleListOfMessages = setOfMessages.ToList<Message>();
+            DbSet<HL7Message> setOfMessages = this._realtimeContext.HL7Messages;
+            var simpleListOfMessages = setOfMessages.ToList<HL7Message>();
             return simpleListOfMessages.ToArray();
         }
 
@@ -43,8 +43,11 @@
         public void Post([FromBody] InterfaceEngineMessage interfaceEngineMessage)
         {
             Message message = this._transformer.Transform(interfaceEngineMessage);
-            _realtimeContext.Messages.Add(message);
-            _realtimeContext.SaveChanges();
+            if (message.Protocol.Equals(MessageProtocol.HL7))
+            {
+                _realtimeContext.HL7Messages.Add((HL7Message)message);
+                _realtimeContext.SaveChanges();
+            }
         }
     }
 }

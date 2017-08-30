@@ -28,12 +28,9 @@
 
         string _routingKey;
 
-        string _secondaryHost;
-
         public RabbitMQQueueService(
             string hostName,
             int port,
-            string secondaryHost,
             string messageExchange,
             string messageQueue,
             string routingKey,
@@ -41,7 +38,6 @@
         {
             this._hostName = hostName;
             this._port = port;
-            this._secondaryHost = secondaryHost;
             this._messageExchange = messageExchange;
             this._messageQueue = messageQueue;
             this._routingKey = routingKey;

@@ -19,7 +19,7 @@
 
         public DateTime TransmissionReceiptTime { get; set; }
 
-        public string Version { get; set; }
+        public string ProtocolVersion { get; set; }
 
         public string XmlMessage { get; set; }
     }

@@ -4,20 +4,22 @@
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using Microsoft.Extensions.DependencyInjection;
 
     public class RealtimeContext : DbContext
     {
         public RealtimeContext(DbContextOptions<RealtimeContext> options) : base(options) { }
-        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<HL7Message> HL7Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Message>(ConfigureMessage);
+            builder.Entity<HL7Message>(ConfigureHL7Message);
         }
 
-        void ConfigureMessage(EntityTypeBuilder<Message> builder)
+        void ConfigureHL7Message(EntityTypeBuilder<HL7Message> builder)
         {
-            builder.ToTable("Message");
+            builder.ToTable("HL7Message");
 
             builder.Property(ci => ci.Id)
                 .UseSqlServerIdentityColumn()
@@ -27,7 +29,7 @@
                 .IsRequired(true)
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.Protocol)
+            builder.Property(ci => ci.ProtocolVersion)
                 .IsRequired(true)
                 .HasMaxLength(255);
 
@@ -38,7 +40,26 @@
             builder.Property(ci => ci.TransmissionReceiptTime)
                 .IsRequired(true);
 
-            builder.Property(ci => ci.Version)
+            builder.Property(ci => ci.ExternalPatientID)
+                .IsRequired(false)
+                .HasMaxLength(255);
+
+            builder.Property(ci => ci.InternalPatientID)
+                .IsRequired(true)
+                .HasMaxLength(255);
+
+            builder.Property(ci => ci.MessageDate)
+                .IsRequired(false);
+
+            builder.Property(ci => ci.MessageEvent)
+                .IsRequired(true)
+                .HasMaxLength(255);
+
+            builder.Property(ci => ci.MessageType)
+                .IsRequired(true)
+                .HasMaxLength(255);
+
+            builder.Property(ci => ci.ReceivingApplication)
                 .IsRequired(true)
                 .HasMaxLength(255);
 

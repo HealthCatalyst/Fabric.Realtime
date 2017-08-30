@@ -24,14 +24,17 @@
         {
             // 1. Deserialize
             InterfaceEngineMessage interfaceEngineMessage =
-                JsonConvert.DeserializeObject<InterfaceEngineMessage>(rawMessage);
+                JsonConvert.DeserializeObject<HL7InterfaceEngineMessage>(rawMessage);
 
             // 2. Transform
             Message message = this._transformer.Transform(interfaceEngineMessage);
 
             // 3. Persist
-            this._realtimeContext.Messages.Add(message);
-            this._realtimeContext.SaveChanges();
+            if (message.Protocol.Equals(MessageProtocol.HL7))
+            {
+                this._realtimeContext.HL7Messages.Add((HL7Message)message);
+                this._realtimeContext.SaveChanges();
+            }
 
             // 4. Queue for routing
 

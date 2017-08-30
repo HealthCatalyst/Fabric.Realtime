@@ -60,7 +60,6 @@
                 new RabbitMQQueueService(
                     hostName: "rabbitmq",
                     port: int.Parse(this.Configuration["MessageBrokerPort"]),
-                    secondaryHost: string.Empty,
                     messageExchange: "fabric.interfaceengine",
                     messageQueue: "mirth.connect",
                     routingKey: "mirth.connect.inbound",
