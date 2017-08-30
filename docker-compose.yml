@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   fabric.realtime:
@@ -6,3 +6,22 @@ services:
     build:
       context: ./Fabric.Realtime
       dockerfile: Dockerfile
+    environment:
+      ConnectionString: Server=sql.data;database=FabricRealtime;User=sa;Password=P@ssw0rd;
+      MessageBrokerPort: 5672
+    depends_on:
+      - rabbitmq
+      - sql.data
+
+  rabbitmq:
+    image: rabbitmq
+    ports: 
+      - 5672:5672
+
+  sql.data: 
+    image: microsoft/mssql-server-linux
+    environment:
+      SA_PASSWORD: P@ssw0rd
+      ACCEPT_EULA: Y
+    ports:
+      - 1433:1433

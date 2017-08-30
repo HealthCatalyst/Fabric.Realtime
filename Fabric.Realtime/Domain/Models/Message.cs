@@ -1,6 +1,7 @@
 ﻿namespace Fabric.Realtime.Domain.Models
 {
     using System;
+    using System.Collections;
 
     public class Message
     {

@@ -22,28 +22,32 @@
 
         string _messageQueue;
 
-        string _primaryHost;
+        string _hostName;
+
+        int _port;
 
         string _routingKey;
 
         string _secondaryHost;
 
         public RabbitMQQueueService(
-            string primaryHost,
+            string hostName,
+            int port,
             string secondaryHost,
             string messageExchange,
             string messageQueue,
             string routingKey,
             IInterfaceEngineEventHandler eventHandler)
         {
-            this._primaryHost = primaryHost;
+            this._hostName = hostName;
+            this._port = port;
             this._secondaryHost = secondaryHost;
             this._messageExchange = messageExchange;
             this._messageQueue = messageQueue;
             this._routingKey = routingKey;
             this._eventHandler = eventHandler;
 
-            var factory = new ConnectionFactory() { HostName = this._primaryHost };
+            var factory = new ConnectionFactory() { HostName = this._hostName, Port = this._port };
             this._connection = factory.CreateConnection();
             this._channel = this._connection.CreateModel();
 

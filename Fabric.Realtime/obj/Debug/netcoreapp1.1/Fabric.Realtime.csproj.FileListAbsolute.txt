@@ -7,3 +7,14 @@ C:\Source\VisualStudio2017\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1
 C:\Source\VisualStudio2017\Fabric.Realtime\Fabric.Realtime\bin\Debug\netcoreapp1.1\Fabric.Realtime.pdb
 C:\Source\VisualStudio2017\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.dll
 C:\Source\VisualStudio2017\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.pdb
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\bin\Debug\netcoreapp1.1\Fabric.Realtime.deps.json
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\bin\Debug\netcoreapp1.1\Fabric.Realtime.runtimeconfig.json
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\bin\Debug\netcoreapp1.1\Fabric.Realtime.runtimeconfig.dev.json
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\bin\Debug\netcoreapp1.1\Fabric.Realtime.dll
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\bin\Debug\netcoreapp1.1\Fabric.Realtime.pdb
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.csprojResolveAssemblyReference.cache
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.AssemblyInfo.cs
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.dll
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.pdb
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.csproj.CoreCompileInputs.cache
+C:\Source\GitHub\Fabric.Realtime\Fabric.Realtime\obj\Debug\netcoreapp1.1\Fabric.Realtime.AssemblyInfoInputs.cache

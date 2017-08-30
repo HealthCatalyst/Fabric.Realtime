@@ -7,14 +7,17 @@
     using Fabric.Realtime.Transformers;
 
     using Newtonsoft.Json;
+    using Fabric.Realtime.Domain.Stores;
 
     public class InterfaceEngineEventHandler : IInterfaceEngineEventHandler
     {
         IInterfaceEngineMessageTransformer _transformer;
+        private readonly RealtimeContext _realtimeContext;
 
-        public InterfaceEngineEventHandler(IInterfaceEngineMessageTransformer transformer)
+        public InterfaceEngineEventHandler(IInterfaceEngineMessageTransformer transformer, RealtimeContext context)
         {
             this._transformer = transformer;
+            this._realtimeContext = context;
         }
 
         public Task HandleMessage(string rawMessage)
@@ -27,6 +30,8 @@
             Message message = this._transformer.Transform(interfaceEngineMessage);
 
             // 3. Persist
+            this._realtimeContext.Messages.Add(message);
+            this._realtimeContext.SaveChanges();
 
             // 4. Queue for routing
 
