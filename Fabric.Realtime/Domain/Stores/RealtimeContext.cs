@@ -12,9 +12,32 @@
 
         public DbSet<HL7Message> HL7Messages { get; set; }
 
+        public DbSet<Subscription> Subscriptions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<HL7Message>(ConfigureHL7Message);
+            builder.Entity<SubscriptionMessageEvent>(this.ConfigureSubscriptionMessageEvent);
+            builder.Entity<Subscription>(ConfigureSubscription);
+        }
+
+        void ConfigureSubscription(EntityTypeBuilder<Subscription> builder)
+        {
+            builder.ToTable("Subscription");
+            builder.Property(ci => ci.Id)
+                .UseSqlServerIdentityColumn()
+                .IsRequired();
+            builder.Property(ci => ci.SubscriptionName).IsRequired().HasMaxLength(255);
+            builder.Property(ci => ci.SubscriptionDate).IsRequired();
+            builder.Property(ci => ci.RoutingKey).IsRequired().HasMaxLength(255);
+            builder.HasMany(ci => ci.MessageEvents);
+        }
+
+        void ConfigureSubscriptionMessageEvent(EntityTypeBuilder<SubscriptionMessageEvent> builder)
+        {
+            builder.ToTable("SubscriptionMessageEvent");
+            builder.Property(ci => ci.Id).UseSqlServerIdentityColumn().IsRequired();
+            builder.Property(ci => ci.MessageEvent).IsRequired().HasMaxLength(255);
         }
 
         void ConfigureHL7Message(EntityTypeBuilder<HL7Message> builder)
