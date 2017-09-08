@@ -16,17 +16,23 @@
         {
             try
             {
-                while (true)
-                {
-                    token.ThrowIfCancellationRequested();
-                    await Task.Delay(1000, token);
-                    Console.WriteLine(DateTime.Now.ToString("u"));
-                }
+                await DoWork(token);
             }
             catch (TaskCanceledException)
             {
                 Console.WriteLine("Exiting background worker.");
             }
+        }
+
+        private static async Task DoWork(CancellationToken token)
+        {
+            while (true)
+            {
+                token.ThrowIfCancellationRequested();
+                await Task.Delay(1000, token);
+                Console.WriteLine(string.Format("RECEIVE: {0}", DateTime.Now.ToString("u")));
+            }
+            // ReSharper disable once FunctionNeverReturns
         }
     }
 }

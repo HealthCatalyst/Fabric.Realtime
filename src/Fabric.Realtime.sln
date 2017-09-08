@@ -11,11 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1AC482B3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Record", "Fabric.Realtime.Record\Fabric.Realtime.Record.csproj", "{EB28DE4C-D54C-46A9-8FBE-2E8192251765}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Replay", "Fabric.Realtime.Replay\Fabric.Realtime.Replay.csproj", "{77EF35C7-7C7B-4ABE-9227-4E489C4AB79E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Replay", "Fabric.Realtime.Replay\Fabric.Realtime.Replay.csproj", "{77EF35C7-7C7B-4ABE-9227-4E489C4AB79E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Core", "Fabric.Realtime.Core\Fabric.Realtime.Core.csproj", "{DFD09CD6-F943-436C-8C76-D25D07867A9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Core", "Fabric.Realtime.Core\Fabric.Realtime.Core.csproj", "{DFD09CD6-F943-436C-8C76-D25D07867A9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Data", "Fabric.Realtime.Data\Fabric.Realtime.Data.csproj", "{D18868FC-E960-4C21-A1AB-B5061D1A903F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Data", "Fabric.Realtime.Data\Fabric.Realtime.Data.csproj", "{D18868FC-E960-4C21-A1AB-B5061D1A903F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.ConsoleApp", "Fabric.Realtime.ConsoleApp\Fabric.Realtime.ConsoleApp.csproj", "{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalyst.Logging.Abstractions", "Catalyst.Logging.Abstractions\Catalyst.Logging.Abstractions.csproj", "{BEDF70BB-A630-4DE6-9074-F7B65AD51A11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Engine", "Fabric.Realtime.Engine\Fabric.Realtime.Engine.csproj", "{2F95913B-1634-4072-833D-460AC2FD7402}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +49,18 @@ Global
 		{D18868FC-E960-4C21-A1AB-B5061D1A903F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D18868FC-E960-4C21-A1AB-B5061D1A903F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D18868FC-E960-4C21-A1AB-B5061D1A903F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEDF70BB-A630-4DE6-9074-F7B65AD51A11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEDF70BB-A630-4DE6-9074-F7B65AD51A11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEDF70BB-A630-4DE6-9074-F7B65AD51A11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEDF70BB-A630-4DE6-9074-F7B65AD51A11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F95913B-1634-4072-833D-460AC2FD7402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F95913B-1634-4072-833D-460AC2FD7402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F95913B-1634-4072-833D-460AC2FD7402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F95913B-1634-4072-833D-460AC2FD7402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +71,9 @@ Global
 		{77EF35C7-7C7B-4ABE-9227-4E489C4AB79E} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 		{DFD09CD6-F943-436C-8C76-D25D07867A9C} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 		{D18868FC-E960-4C21-A1AB-B5061D1A903F} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
+		{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
+		{BEDF70BB-A630-4DE6-9074-F7B65AD51A11} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
+		{2F95913B-1634-4072-833D-460AC2FD7402} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CA73924-AE81-4ECC-B16E-0B4A21A3D283}

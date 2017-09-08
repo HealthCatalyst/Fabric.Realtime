@@ -1,4 +1,6 @@
-﻿namespace Fabric.Realtime.WindowsService
+﻿using Fabric.Realtime.Replay;
+
+namespace Fabric.Realtime.WindowsService
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -20,7 +22,7 @@
     {
         private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-        private Task workerTask;
+        private Task[] workerTasks;
 
         /// <summary>
         /// Start the Windows service. 
@@ -42,8 +44,7 @@
 
             hostControl.RequestAdditionalTime(TimeSpan.FromSeconds(10));
 
-            var worker = new MessageReceiveWorker();
-            this.workerTask = Task.Factory.StartNew(() => worker.RunAsync(this.tokenSource.Token));
+            this.workerTasks = StartTasks();
 
             Console.WriteLine(@"FabricServiceController Started");
 
@@ -69,7 +70,7 @@
             try
             {
                 this.tokenSource.Cancel();
-                this.workerTask.Wait(1000);
+                Task.WaitAll(this.workerTasks, 1000);
             }
             catch (Exception ex)
             {
@@ -78,5 +79,15 @@
 
             return true;
         }
+
+        public Task[] StartTasks()
+        {
+            return new[]
+            {
+                new MessageReceiveWorker().RunAsync(tokenSource.Token),
+                new MessageReplayWorker().RunAsync(tokenSource.Token)
+            };
+        }
+
     }
 }

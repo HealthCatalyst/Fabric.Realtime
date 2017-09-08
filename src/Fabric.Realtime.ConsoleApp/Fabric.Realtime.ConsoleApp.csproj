@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc" Version="2.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fabric.Realtime.Record\Fabric.Realtime.Record.csproj" />
+    <ProjectReference Include="..\Fabric.Realtime.Replay\Fabric.Realtime.Replay.csproj" />
+  </ItemGroup>
+
+</Project>
