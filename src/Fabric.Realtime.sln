@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalyst.Logging.Abstractio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Engine", "Fabric.Realtime.Engine\Fabric.Realtime.Engine.csproj", "{2F95913B-1634-4072-833D-460AC2FD7402}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Web", "Fabric.Realtime.Web\Fabric.Realtime.Web.csproj", "{263A2C20-FE42-4C08-9E32-58979E0152E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{2F95913B-1634-4072-833D-460AC2FD7402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F95913B-1634-4072-833D-460AC2FD7402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F95913B-1634-4072-833D-460AC2FD7402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{263A2C20-FE42-4C08-9E32-58979E0152E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{263A2C20-FE42-4C08-9E32-58979E0152E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{263A2C20-FE42-4C08-9E32-58979E0152E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{263A2C20-FE42-4C08-9E32-58979E0152E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{7DB0A86E-9591-4164-B7EC-9ABE167EEFE7} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 		{BEDF70BB-A630-4DE6-9074-F7B65AD51A11} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 		{2F95913B-1634-4072-833D-460AC2FD7402} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
+		{263A2C20-FE42-4C08-9E32-58979E0152E1} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CA73924-AE81-4ECC-B16E-0B4A21A3D283}
