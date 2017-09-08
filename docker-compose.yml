@@ -8,7 +8,12 @@ services:
       dockerfile: Dockerfile
     environment:
       ConnectionString: Server=sql.data;database=FabricRealtime;User=sa;Password=P@ssw0rd;
+      MessageBrokerHostName: "rabbitmq"
       MessageBrokerPort: 5672
+      InterfaceEngineExchange: "fabric.interfaceengine"
+      InterfaceEngineQueue: "mirth.connect"
+      InterfaceEngineRoutingKey: "mirth.connect.inbound"
+      ExternalApplicationExchange: "fabric.externalapplication"
     depends_on:
       - rabbitmq
       - sql.data

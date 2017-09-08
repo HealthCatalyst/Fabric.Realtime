@@ -18,16 +18,16 @@
             this.XmlMessage = xmlMessage;
         }
 
-        public string MessageHash { get; private set; }
+        public string MessageHash { get; }
 
-        public string Protocol { get; private set; }
+        public string Protocol { get; }
 
-        public string RawMessage { get; private set; }
+        public string RawMessage { get; }
 
-        public long TransmissionReceiptTimeInMillis { get; private set; }
+        public long TransmissionReceiptTimeInMillis { get; }
 
-        public string Version { get; private set; }
+        public string Version { get; }
 
-        public string XmlMessage { get; private set; }
+        public string XmlMessage { get; }
     }
 }

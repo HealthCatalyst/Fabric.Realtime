@@ -6,8 +6,6 @@
     using Fabric.Realtime.Domain.Models;
     using Fabric.Realtime.EventBus.Models;
 
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
-
     public class InterfaceEngineMessageTransformer : IInterfaceEngineMessageTransformer
     {
         private readonly DateTime epochDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -31,17 +29,19 @@
                 hl7Message.MessageEvent = ((HL7InterfaceEngineMessage)interfaceEngineMessage).MessageEvent;
                 hl7Message.MessageType = ((HL7InterfaceEngineMessage)interfaceEngineMessage).MessageType;
                 hl7Message.SendingApplication = ((HL7InterfaceEngineMessage)interfaceEngineMessage).SendingApplication;
-                hl7Message.ReceivingApplication = ((HL7InterfaceEngineMessage)interfaceEngineMessage).ReceivingApplication;
+                hl7Message.ReceivingApplication = ((HL7InterfaceEngineMessage)interfaceEngineMessage)
+                    .ReceivingApplication;
                 hl7Message.RawMessage = interfaceEngineMessage.RawMessage;
                 hl7Message.XmlMessage = interfaceEngineMessage.XmlMessage;
                 hl7Message.TransmissionReceiptTime =
-                    epochDateTimeUtc.AddMilliseconds(interfaceEngineMessage.TransmissionReceiptTimeInMillis);
+                    this.epochDateTimeUtc.AddMilliseconds(interfaceEngineMessage.TransmissionReceiptTimeInMillis);
                 message = hl7Message;
             }
             else
             {
                 throw new Exception("Non-HL7 protocols are not supported at this time.");
             }
+
             return message;
         }
     }

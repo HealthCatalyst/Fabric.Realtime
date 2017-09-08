@@ -7,7 +7,7 @@
     {
         public int Id { get; set; }
 
-        public List<SubscriptionMessageEvent> MessageEvents { get; set; }
+        public List<SubscriptionMessageType> MessageTypes { get; set; }
 
         public string RoutingKey { get; set; }
 
