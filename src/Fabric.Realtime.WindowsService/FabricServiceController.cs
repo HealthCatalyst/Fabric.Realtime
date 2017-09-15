@@ -1,4 +1,6 @@
-﻿using Fabric.Realtime.Replay;
+﻿using Fabric.Realtime.Engine.Configuration;
+using Fabric.Realtime.Engine.Record;
+using Fabric.Realtime.Engine.Replay;
 
 namespace Fabric.Realtime.WindowsService
 {
@@ -6,9 +8,6 @@ namespace Fabric.Realtime.WindowsService
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using Fabric.Realtime.Record;
-
     using Topshelf;
 
     /// <summary>
@@ -84,7 +83,7 @@ namespace Fabric.Realtime.WindowsService
         {
             return new[]
             {
-                new MessageReceiveWorker().RunAsync(tokenSource.Token),
+                new MessageReceiveWorker(new RealtimeConfiguration(RealtimeConfiguration.BuildConfigurationRoot(new string[]{}))).RunAsync(tokenSource.Token);
                 new MessageReplayWorker().RunAsync(tokenSource.Token)
             };
         }

@@ -59,20 +59,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fabric.Realtime.Record\Fabric.Realtime.Record.csproj">
-      <Project>{eb28de4c-d54c-46a9-8fbe-2e8192251765}</Project>
-      <Name>Fabric.Realtime.Record</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fabric.Realtime.Replay\Fabric.Realtime.Replay.csproj">
-      <Project>{77EF35C7-7C7B-4ABE-9227-4E489C4AB79E}</Project>
-      <Name>Fabric.Realtime.Replay</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fabric.Realtime.Engine\Fabric.Realtime.Engine.csproj">
+      <Project>{2F95913B-1634-4072-833D-460AC2FD7402}</Project>
+      <Name>Fabric.Realtime.Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

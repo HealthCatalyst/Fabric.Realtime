@@ -1,15 +1,16 @@
-﻿namespace Fabric.Realtime.ConsoleApp
+﻿using System.Linq;
+using Catalyst.Logging.Abstractions;
+using Fabric.Realtime.Data.Stores;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fabric.Realtime.ConsoleApp
 {
     using System;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using DryIoc;
     using Fabric.Realtime.Core;
-    using Fabric.Realtime.Record;
-    using Fabric.Realtime.Replay;
-    
+    using DryIoc;
+
     /// <summary>
     /// Fabric Real-time application (.NET Core) that allows you 
     /// to run from the command line or via Docker.
@@ -17,7 +18,8 @@
     public class Program
     {
         private static readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
-        private static readonly Container container = new Container();
+        private static IContainer container;
+        private static ILoggingService log;
 
         /// <summary>
         /// The main entry point for the Fabric Real-time application.
@@ -25,11 +27,11 @@
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            Console.WriteLine(@"FabricServiceController Starting...");
-
             try
             {
                 Initialize();
+
+                log.Info(@"FabricServiceController Starting...");
                 Run();
             }
             catch (TaskCanceledException)
@@ -44,9 +46,18 @@
 
         private static void Initialize()
         {
-            container.Register<IBackgroundWorker, MessageReceiveWorker>();
-            container.Register<IBackgroundWorker, MessageReplayWorker>();
+            container = Bootstrapper.Initialize();
+            log = container.Resolve<ILoggingService>();
 
+            var optionsBuilder = new DbContextOptionsBuilder<RealtimeContext>();
+            optionsBuilder.UseSqlServer(
+                "Server=(local);Database=FabricRealtime;Trusted_Connection=True;MultipleActiveResultSets=true");
+            using (var dbContext = new RealtimeContext(optionsBuilder.Options))
+            {
+                log.Info(@"Creating FabricRealtime database...");
+                DbInitializer.Initialize(dbContext);
+                log.Info(@"Finished FabricRealtime database creation.");
+            }
         }
 
         private static void Run()
@@ -56,7 +67,7 @@
             Console.WriteLine(@"Press <ctrl>+C to exit.");
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
-                Console.WriteLine(@"Cancelling workers...");
+                log.Info(@"Cancelling workers...");
                 tokenSource.Cancel();
             };
             Task.WaitAll(taskList);
