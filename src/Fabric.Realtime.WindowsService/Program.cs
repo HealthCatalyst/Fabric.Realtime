@@ -1,55 +1,26 @@
-﻿namespace Fabric.Realtime.WindowsService
+﻿using System.Diagnostics;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
+
+namespace Fabric.Realtime.WindowsService
 {
-    using System;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Reflection;
-
-    using Topshelf;
-
-    /// <summary>
-    /// Fabric Real-time Windows service.
-    /// </summary>
-    /// <remarks>
-    /// Commands (see http://docs.topshelf-project.com/en/latest/overview/commandline.html):
-    ///     install
-    ///     uninstall
-    ///     start
-    ///     stop
-    /// </remarks>
     public class Program
     {
-        /// <summary>
-        /// The main entry point for the Fabric Real-time Windows service.
-        /// </summary>
-        public static void Main()
+        public static void Main(string[] args)
         {
-            HostFactory.Run(service =>
-                {
-                    service.SetServiceName(Properties.Resources.ServiceName);
-                    service.SetDisplayName(ServiceDisplayName);
-                    service.SetDescription(Properties.Resources.ServiceDescription);
+            var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+            var pathToContentRoot = Path.GetDirectoryName(pathToExe);
 
-                    service.Service<FabricServiceController>(
-                        serviceConfigureation =>
-                            {
-                                serviceConfigureation.ConstructUsing(() => new FabricServiceController());
-                                serviceConfigureation.WhenStarted((controller, hostControl) => controller.Start(hostControl));
-                                serviceConfigureation.WhenStopped((controller, hostControl) => controller.Stop(hostControl));
-                            });
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(pathToContentRoot)
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
 
-                    service.StartAutomatically();
-                    service.SetStartTimeout(TimeSpan.FromSeconds(10));
-                    service.SetStopTimeout(TimeSpan.FromSeconds(10));
-                    service.RunAsNetworkService();
-                });
+            // See https://docs.microsoft.com/en-us/aspnet/core/hosting/windows-service
+            host.RunAsService();
         }
-
-        private static string ServiceDisplayName => string.Format(CultureInfo.CurrentCulture,
-            Properties.Resources.ServiceDisplayName, Version);
-
-        public static string Version
-            => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-
     }
 }
