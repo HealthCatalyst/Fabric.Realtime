@@ -8,6 +8,8 @@
     using Fabric.Realtime.EventBus.Services;
     using Fabric.Realtime.Transformers;
 
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
+
     using Newtonsoft.Json;
 
     public class InterfaceEngineEventHandler : IInterfaceEngineEventHandler

@@ -18,6 +18,8 @@
 
     using Fabric.Realtime.EventBus.Services;
 
+    using Swashbuckle.AspNetCore.Swagger;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -76,6 +78,12 @@
 
             services.AddSingleton<InterfaceEngineQueueService, InterfaceEngineQueueService>();
 
+            services.AddSwaggerGen(
+                c =>
+                    {
+                        c.SwaggerDoc("v1", new Info() { Title = "Fabric.Realtime API", Version = "v1" }); 
+                        c.DescribeAllEnumsAsStrings();
+                    });
 
         }
 
@@ -86,6 +94,7 @@
             loggerFactory.AddDebug();
 
             app.UseMvc();
+            app.UseSwagger().UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fabric.Realtime API V1"); });
 
             var services = app.ApplicationServices;
             try
