@@ -26,7 +26,7 @@
             this._messageTypeSubscriberService = messageTypeSubscriberService;
         }
 
-        // GET api/values
+        // GET api/v1/subscription
         [HttpGet]
         public IEnumerable<Subscription> Get()
         {

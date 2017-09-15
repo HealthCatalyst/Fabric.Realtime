@@ -23,7 +23,7 @@
             this._transformer = transformer;
         }
 
-        // GET api/values
+        // GET api/v1/message
         [HttpGet]
         public IEnumerable<Message> Get()
         {

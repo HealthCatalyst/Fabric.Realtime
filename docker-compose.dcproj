@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>02273d01-1463-4dbb-8aae-adeccc6e1351</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
-    <DockerServiceUrl>http://localhost:{ServicePort}/api/values</DockerServiceUrl>
+    <DockerServiceUrl>http://localhost:{ServicePort}/api/v1/subscription</DockerServiceUrl>
     <DockerServiceName>fabric.realtime</DockerServiceName>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectVersion>2.0</ProjectVersion>
