@@ -1,1 +1,0 @@
-C:\Source\GitHub\Fabric.Realtime\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
