@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fabric.Realtime.Data.Models
+﻿namespace Fabric.Realtime.Data.Models
 {
-    public class HL7Message
+    using System;
+
+    public class HL7Message : IMessage
     {
         public long Id { get; set; }
 
         public string MessageHash { get; set; }
 
-        public string MessageVersion { get; set; }
+        public string Protocol { get; set; }
+
+        public string ProtocolVersion { get; set; }
 
         public string MessageType { get; set; }
 

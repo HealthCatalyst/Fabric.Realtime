@@ -16,12 +16,11 @@ namespace Fabric.Realtime.Web
 
         public static void Main(string[] args)
         {
-            var configurationRoot = RealtimeConfiguration.BuildConfigurationRoot();
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
-                .UseConfiguration(configurationRoot)
+                //.UseConfiguration(configurationRoot)
                 //.UseApplicationInsights()
                 .Build();
 

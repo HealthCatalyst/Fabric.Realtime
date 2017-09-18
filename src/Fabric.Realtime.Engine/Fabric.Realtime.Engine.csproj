@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
     <PackageReference Include="Serilog" Version="2.5.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.0" />
   </ItemGroup>
@@ -21,6 +22,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Fabric.Realtime.Core\Fabric.Realtime.Core.csproj" />
     <ProjectReference Include="..\Fabric.Realtime.Data\Fabric.Realtime.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EventBus\Models\" />
+    <Folder Include="EventBus\Services\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Transformers\" />
   </ItemGroup>
 
 </Project>

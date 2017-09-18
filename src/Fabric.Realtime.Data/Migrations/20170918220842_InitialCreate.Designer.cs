@@ -11,7 +11,7 @@ using System;
 namespace Fabric.Realtime.Data.Migrations
 {
     [DbContext(typeof(RealtimeContext))]
-    [Migration("20170913170651_InitialCreate")]
+    [Migration("20170918220842_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,15 +65,17 @@ namespace Fabric.Realtime.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<string>("MessageType")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<string>("MessageVersion")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                    b.Property<string>("MessageType");
 
                     b.Property<string>("ProcessingID")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Protocol")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<string>("ProtocolVersion")
+                        .IsRequired()
                         .HasMaxLength(255);
 
                     b.Property<string>("RawMessage")
@@ -134,13 +136,28 @@ namespace Fabric.Realtime.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<string>("SourceMessageType")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
                     b.HasKey("Id");
 
                     b.ToTable("Subscription");
+                });
+
+            modelBuilder.Entity("Fabric.Realtime.Data.Models.SubscriptionMessageType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("MessageType")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("SubscriptionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriptionId");
+
+                    b.ToTable("SubscriptionMessageType");
                 });
 
             modelBuilder.Entity("Fabric.Realtime.Data.Models.ForwardingHistory", b =>
@@ -149,6 +166,13 @@ namespace Fabric.Realtime.Data.Migrations
                         .WithMany()
                         .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Fabric.Realtime.Data.Models.SubscriptionMessageType", b =>
+                {
+                    b.HasOne("Fabric.Realtime.Data.Models.Subscription")
+                        .WithMany("MessageTypes")
+                        .HasForeignKey("SubscriptionId");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,6 +9,7 @@ namespace Fabric.Realtime.Data.Stores
         public void BuildModel(ModelBuilder builder)
         {
             builder.Entity<HL7Message>(ConfigureHL7Message);
+            builder.Entity<SubscriptionMessageType>(ConfigureSubscriptionMessageType);
             builder.Entity<Subscription>(ConfigureSubscription);
             builder.Entity<ForwardingHistory>(ConfigureForwardingHistory);
         }
@@ -25,11 +26,11 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.MessageVersion)
+            builder.Property(ci => ci.ProtocolVersion)
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.MessageType)
+            builder.Property(ci => ci.Protocol)
                 .IsRequired()
                 .HasMaxLength(255);
 
@@ -100,6 +101,19 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired();
         }
 
+        private void ConfigureSubscriptionMessageType(EntityTypeBuilder<SubscriptionMessageType> builder)
+        {
+            builder.ToTable(nameof(SubscriptionMessageType));
+
+            builder.Property(ci => ci.Id)
+                .UseSqlServerIdentityColumn()
+                .IsRequired();
+
+            builder.Property(ci => ci.MessageType)
+                .IsRequired()
+                .HasMaxLength(255);
+        }
+
         private static void ConfigureSubscription(EntityTypeBuilder<Subscription> builder)
         {
             builder.ToTable(nameof(Subscription));
@@ -115,10 +129,6 @@ namespace Fabric.Realtime.Data.Stores
             builder.Property(ci => ci.IsActive)
                 .IsRequired()
                 .HasDefaultValue(true);
-
-            builder.Property(ci => ci.SourceMessageType)
-                .IsRequired()
-                .HasMaxLength(255);
 
             builder.Property(ci => ci.MessageFormat)
                 .IsRequired()
@@ -142,6 +152,7 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired()
                 .HasMaxLength(255);
 
+            builder.HasMany(ci => ci.MessageTypes);
             builder.HasMany(typeof(ForwardingHistory)).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Fabric.Realtime.Data.Models
 {
@@ -10,7 +11,9 @@ namespace Fabric.Realtime.Data.Models
 
         public bool IsActive { get; set; }
 
-        public string SourceMessageType { get; set; }
+        //public string SourceMessageType { get; set; }
+
+        public IList<SubscriptionMessageType> MessageTypes { get; set; }
 
         public string MessageFormat { get; set; }
 

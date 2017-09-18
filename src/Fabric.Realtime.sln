@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{853D988D-350C-4D1F-8DFA-A56CDF139181}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Engine", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Web", "Fabric.Realtime.Web\Fabric.Realtime.Web.csproj", "{263A2C20-FE42-4C08-9E32-58979E0152E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.WindowsService", "Fabric.Realtime.WindowsService\Fabric.Realtime.WindowsService.csproj", "{C784BEFE-F257-472A-8569-2BA8AA372990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.WindowsService", "Fabric.Realtime.WindowsService\Fabric.Realtime.WindowsService.csproj", "{C784BEFE-F257-472A-8569-2BA8AA372990}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
