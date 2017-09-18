@@ -1,20 +1,20 @@
-﻿using System.Reflection;
-using Fabric.Realtime.Core;
-using Fabric.Realtime.Data.Stores;
-using Fabric.Realtime.Engine.Configuration;
-using Fabric.Realtime.Engine.Record;
-using Fabric.Realtime.Engine.Replay;
-using Fabric.Realtime.Engine.Utils;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-namespace Fabric.Realtime.Web
+﻿namespace Fabric.Realtime.Web
 {
+    using System.Reflection;
+
+    using Fabric.Realtime.Core;
+    using Fabric.Realtime.Data.Stores;
+    using Fabric.Realtime.Engine.Configuration;
+    using Fabric.Realtime.Engine.Record;
+    using Fabric.Realtime.Engine.Replay;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -38,10 +38,7 @@ namespace Fabric.Realtime.Web
             services.AddSingleton<IBackgroundWorker, MessageReplayWorker>();
             services.AddSingleton<IRealtimeConfiguration, RealtimeConfiguration>();
 
-            //services.ConfigurePoco<DatabaseSettings>(Configuration.GetSection("Database"));
-
             var databaseSettings = this.Configuration.GetSection("Database").Get<DatabaseSettings>();
-
             services.AddDbContext<RealtimeContext>(
                 options =>
                 {
@@ -53,8 +50,6 @@ namespace Fabric.Realtime.Web
                             sqlOptions.EnableRetryOnFailure();
                         });
                 });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,18 +63,28 @@ namespace Fabric.Realtime.Web
             //    isJson: false,
             //    minimumLevel: LogLevel.Information);
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
-            var context = app.ApplicationServices.GetRequiredService<RealtimeContext>();
-            DbInitializer.Initialize(context);
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+                });
+
+
+            ////var context = app.ApplicationServices.GetRequiredService<RealtimeContext>();
+            ////DbInitializer.Initialize(context);
         }
-
     }
 }

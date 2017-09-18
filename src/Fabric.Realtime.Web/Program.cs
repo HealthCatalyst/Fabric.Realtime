@@ -14,30 +14,17 @@ namespace Fabric.Realtime.Web
     {
         private static readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
-                //.UseConfiguration(configurationRoot)
-                //.UseApplicationInsights()
-                .Build();
+        private static Task[] workerTasks;
 
-            Run(host);
-            //host.Run();
-        }
-
-        private static void Run(IWebHost host)
+        private static void StartupWorkers(IWebHost host)
         {
-            var taskList = StartTasks(host);
+            workerTasks = StartTasks(host);
 
             Console.WriteLine(@"Press <ctrl>+C to exit.");
             Console.CancelKeyPress += (sender, eventArgs) =>
-            {
-                tokenSource.Cancel();
-            };
-            Task.WaitAll(taskList);
+                {
+                    tokenSource.Cancel();
+                };
         }
 
         public static Task[] StartTasks(IWebHost host)
@@ -46,5 +33,17 @@ namespace Fabric.Realtime.Web
             return workers.Select(worker => worker.RunAsync(tokenSource.Token)).ToArray();
         }
 
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseStartup<Startup>()
+                .UseApplicationInsights()
+                .Build();
+
+            StartupWorkers(host);
+            host.Run();
+        }
     }
 }
