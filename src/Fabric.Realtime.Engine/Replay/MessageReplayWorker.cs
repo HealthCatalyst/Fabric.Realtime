@@ -13,9 +13,9 @@ namespace Fabric.Realtime.Engine.Replay
     {
         private readonly ILogger logger;
 
-        public MessageReplayWorker(ILoggerFactory loggerFactory)
+        public MessageReplayWorker(ILogger<MessageReplayWorker> logger)
         {
-            logger = loggerFactory.CreateLogger(typeof(MessageReplayWorker));
+            this.logger = logger;
         }
 
         /// <inheritdoc />

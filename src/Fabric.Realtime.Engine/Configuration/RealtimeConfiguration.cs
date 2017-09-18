@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace Fabric.Realtime.Engine.Configuration
@@ -17,14 +19,14 @@ namespace Fabric.Realtime.Engine.Configuration
         public MessageBrokerSettings MessageBrokerSettings { get; set; }
         public InterfaceEngineSettings InterfaceEngineSettings { get; set; }
 
-        public static IConfigurationRoot BuildConfigurationRoot(string[] args)
+        public static IConfigurationRoot BuildConfigurationRoot()
         {
 
             var configBuilder = new ConfigurationBuilder()
                 .AddInMemoryCollection(InMemoryConfiguration)
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true)
-                .AddCommandLine(args);
+                .AddCommandLine(Environment.GetCommandLineArgs().Skip(1).ToArray());
 
             return configBuilder.Build();
         }

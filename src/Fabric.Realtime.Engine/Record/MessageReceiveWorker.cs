@@ -14,9 +14,9 @@ namespace Fabric.Realtime.Engine.Record
     {
         private readonly ILogger logger;
 
-        public MessageReceiveWorker(ILoggerFactory loggerFactory, IRealtimeConfiguration config)
+        public MessageReceiveWorker(ILogger<MessageReceiveWorker> logger, IRealtimeConfiguration config)
         {
-            logger = loggerFactory.CreateLogger(typeof(MessageReceiveWorker));
+            this.logger = logger;
         }
 
         /// <inheritdoc />
