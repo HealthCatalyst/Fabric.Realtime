@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  fabric.realtime:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
