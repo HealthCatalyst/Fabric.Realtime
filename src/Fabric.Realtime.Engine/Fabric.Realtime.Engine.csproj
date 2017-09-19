@@ -28,6 +28,7 @@
     <Folder Include="EventBus\Models\" />
     <Folder Include="EventBus\Services\" />
     <Folder Include="Handlers\" />
+    <Folder Include="Services\" />
     <Folder Include="Transformers\" />
   </ItemGroup>
 

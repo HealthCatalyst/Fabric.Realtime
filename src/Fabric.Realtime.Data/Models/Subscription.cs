@@ -11,26 +11,21 @@ namespace Fabric.Realtime.Data.Models
 
         public bool IsActive { get; set; }
 
-        //public string SourceMessageType { get; set; }
-
-        public IList<SubscriptionMessageType> MessageTypes { get; set; }
+        public string SourceMessageType { get; set; }
 
         public string MessageFormat { get; set; }
 
         public string RoutingKey { get; set; }
 
-        public DateTimeOffset LastModified { get; set; }
+        public DateTimeOffset LastModifiedOn { get; set; }
 
         public string LastModifiedBy { get; set; }
 
-        public DateTimeOffset Created { get; set; }
+        public DateTimeOffset CreatedOn { get; set; }
 
         public string CreatedBy { get; set; }
 
-        ////[Required]
-        ////public int MessageExpiration { get; set; }
-
-        ////public IEnumerable<ForwardingHistory> ForwardingHistory { get; set; }
+        public ICollection<ForwardingHistory> ForwardingHistory { get; set; }
     }
 
 }

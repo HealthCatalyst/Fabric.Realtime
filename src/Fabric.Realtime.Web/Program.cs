@@ -1,15 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Fabric.Realtime.Core;
-using Microsoft.AspNetCore.Hosting;
-using Fabric.Realtime.Engine.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Fabric.Realtime.Web
+﻿namespace Fabric.Realtime.Web
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fabric.Realtime.Core;
+
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Program
     {
         private static readonly CancellationTokenSource tokenSource = new CancellationTokenSource();

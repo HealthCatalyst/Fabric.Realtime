@@ -1,19 +1,36 @@
-﻿using Fabric.Realtime.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Fabric.Realtime.Data.Stores
+﻿namespace Fabric.Realtime.Data.Stores
 {
+    using Fabric.Realtime.Data.Models;
+
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    /// <summary>
+    /// The realtime model builder.
+    /// </summary>
     public class RealtimeModelBuilder
     {
+        /// <summary>
+        /// Builds the Entity Framework model that defines the entities, 
+        /// the relationships between them, and how they map to the database.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         public void BuildModel(ModelBuilder builder)
         {
             builder.Entity<HL7Message>(ConfigureHL7Message);
-            builder.Entity<SubscriptionMessageType>(ConfigureSubscriptionMessageType);
+            ////builder.Entity<SubscriptionMessageType>(ConfigureSubscriptionMessageType);
             builder.Entity<Subscription>(ConfigureSubscription);
             builder.Entity<ForwardingHistory>(ConfigureForwardingHistory);
         }
 
+        /// <summary>
+        /// Builds the model for HL7 messages.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         private static void ConfigureHL7Message(EntityTypeBuilder<HL7Message> builder)
         {
             builder.ToTable(nameof(HL7Message));
@@ -83,6 +100,12 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired(false);
         }
 
+        /// <summary>
+        /// Builds the model for message forwarding history.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         private static void ConfigureForwardingHistory(EntityTypeBuilder<ForwardingHistory> builder)
         {
             builder.ToTable(nameof(ForwardingHistory));
@@ -97,23 +120,35 @@ namespace Fabric.Realtime.Data.Stores
             builder.Property(ci => ci.SubscriptionId)
                 .IsRequired();
 
-            builder.Property(ci => ci.Sent)
+            builder.Property(ci => ci.SentOn)
                 .IsRequired();
         }
 
-        private void ConfigureSubscriptionMessageType(EntityTypeBuilder<SubscriptionMessageType> builder)
-        {
-            builder.ToTable(nameof(SubscriptionMessageType));
+        /////// <summary>
+        /////// Builds the model for subscription message types.
+        /////// </summary>
+        /////// <param name="builder">
+        /////// The model builder instance used for constructing a model for a context.
+        /////// </param>
+        ////private static void ConfigureSubscriptionMessageType(EntityTypeBuilder<SubscriptionMessageType> builder)
+        ////{
+        ////    builder.ToTable(nameof(SubscriptionMessageType));
 
-            builder.Property(ci => ci.Id)
-                .UseSqlServerIdentityColumn()
-                .IsRequired();
+        ////    builder.Property(ci => ci.Id)
+        ////        .UseSqlServerIdentityColumn()
+        ////        .IsRequired();
 
-            builder.Property(ci => ci.MessageType)
-                .IsRequired()
-                .HasMaxLength(255);
-        }
+        ////    builder.Property(ci => ci.MessageType)
+        ////        .IsRequired()
+        ////        .HasMaxLength(255);
+        ////}
 
+        /// <summary>
+        /// Builds the model for subscriptions.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         private static void ConfigureSubscription(EntityTypeBuilder<Subscription> builder)
         {
             builder.ToTable(nameof(Subscription));
@@ -138,22 +173,21 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.LastModified)
+            builder.Property(ci => ci.LastModifiedOn)
                 .IsRequired();
 
             builder.Property(ci => ci.LastModifiedBy)
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.Created)
+            builder.Property(ci => ci.CreatedOn)
                 .IsRequired();
 
             builder.Property(ci => ci.CreatedBy)
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.HasMany(ci => ci.MessageTypes);
-            builder.HasMany(typeof(ForwardingHistory)).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(s => s.ForwardingHistory).WithOne(h => h.Subscription).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -22,20 +22,21 @@
 
         public void AddSubscription(Subscription subscription)
         {
-            if (subscription.MessageTypes == null) return;
-            foreach (var messageType in subscription.MessageTypes)
-                if (!this.EventSubscriptionDictionary.ContainsKey(messageType.MessageType))
-                {
-                    this.EventSubscriptionDictionary.Add(
-                        messageType.MessageType,
-                        new List<Subscription> { subscription });
-                }
-                else
-                {
-                    if (this.EventSubscriptionDictionary.TryGetValue(
-                        messageType.MessageType,
-                        out List<Subscription> subscriptionList)) subscriptionList.Add(subscription);
-                }
+            // TODO Implement AddSubscription
+            ////if (subscription.MessageTypes == null) return;
+            ////foreach (var messageType in subscription.MessageTypes)
+            ////    if (!this.EventSubscriptionDictionary.ContainsKey(messageType.MessageType))
+            ////    {
+            ////        this.EventSubscriptionDictionary.Add(
+            ////            messageType.MessageType,
+            ////            new List<Subscription> { subscription });
+            ////    }
+            ////    else
+            ////    {
+            ////        if (this.EventSubscriptionDictionary.TryGetValue(
+            ////            messageType.MessageType,
+            ////            out List<Subscription> subscriptionList)) subscriptionList.Add(subscription);
+            ////    }
         }
 
         public List<Subscription> GetSubscriptions(string messageEvent)
@@ -47,8 +48,11 @@
 
         public void Initialize()
         {
-            var subscriptions = this.context.Subscriptions.Include(o => o.MessageTypes);
-            foreach (var subscription in subscriptions) this.AddSubscription(subscription);
+            var subscriptions = this.context.Subscriptions;
+            foreach (var subscription in subscriptions)
+            {
+                this.AddSubscription(subscription);
+            }
         }
     }
 }

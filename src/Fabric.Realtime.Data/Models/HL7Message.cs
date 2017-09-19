@@ -40,5 +40,4 @@
 
         public string XmlMessage { get; set; }
     }
-
 }

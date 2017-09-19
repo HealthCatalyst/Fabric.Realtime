@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fabric.Realtime.Data.Models
+﻿namespace Fabric.Realtime.Data.Models
 {
+    using System;
+
     public class ForwardingHistory
     {
         public long Id { get; set; }
@@ -12,7 +10,9 @@ namespace Fabric.Realtime.Data.Models
 
         public int SubscriptionId { get; set; }
 
-        public DateTimeOffset Sent { get; set; }
+        public DateTimeOffset SentOn { get; set; }
+
+        public Subscription Subscription { get; set; }
     }
 
 }
