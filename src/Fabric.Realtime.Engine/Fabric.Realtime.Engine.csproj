@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EventBus\Models\MessageBrokerExchange.cs" />
     <Compile Remove="EventBus\Models\MessageBrokerExchangeClient.cs" />
     <Compile Remove="EventBus\Services\ExternalApplicationQueueService.cs" />
     <Compile Remove="SerilogLoggingService.cs" />
