@@ -16,7 +16,7 @@
         /// <param name="message">
         /// The message.
         /// </param>
-        void Insert(HL7Message message);
+        void Add(HL7Message message);
 
         /// <summary>
         /// Finds a message by the given identifier.

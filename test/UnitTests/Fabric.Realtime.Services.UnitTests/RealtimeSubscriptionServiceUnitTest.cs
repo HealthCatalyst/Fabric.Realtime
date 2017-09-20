@@ -1,4 +1,4 @@
-namespace Fabric.Realtime.Data.UnitTests
+namespace Fabric.Realtime.Services.UnitTests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -12,54 +12,60 @@ namespace Fabric.Realtime.Data.UnitTests
     using Xunit;
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
-    public class MessageStoreServiceUnitTest
+    public class RealtimeSubscriptionServiceUnitTest
     {
         [Fact]
-        public void MessageStoreServiceFindById()
+        public void RealtimeSubscriptionServiceFindById()
         {
             using (var ctx = GetContextWithData())
             {
-                var service = new MessageStoreService(ctx);
-                var msg = service.FindById(3);
+                var service = new RealtimeSubscriptionService(ctx);
+                var subscription = service.FindById(1);
 
-                Assert.NotNull(msg);
-                Assert.Equal(3, msg.Id);
-                Assert.Equal("HL7", msg.Protocol);
-                Assert.Equal("2.8", msg.ProtocolVersion);
-                Assert.Equal("ADT", msg.MessageType);
-                Assert.True(!string.IsNullOrEmpty(msg.MessageHash));
+                Assert.NotNull(subscription);
+                Assert.Equal(1, subscription.Id);
+                Assert.Equal("HL7", subscription.SourceMessageType);
+                Assert.Equal("RAW", subscription.MessageFormat);
+                Assert.True(subscription.IsActive);
             }
         }
 
         [Fact]
-        public void MessageStoreServiceInsert()
+        public void RealtimeSubscriptionServiceAddSubscription()
         {
-            var expectedMessage = new HL7Message
+            var expected = new RealtimeSubscription
             {
-                Protocol = "HL7",
-                ProtocolVersion = "2.6",
-                MessageType = "ADT",
-                MessageHash = Guid.NewGuid().ToString("N"),
-                TransmissionReceiptTime = new DateTimeOffset(new DateTime(2017, 1, 1, 0, 0, 0).ToUniversalTime())
+                Name = "A",
+                SourceMessageType = "HL7",
+                MessageFormat = "RAW",
+                RoutingKey = "HL7.{MessageType}.{EventType}"
             };
 
             using (var ctx = CreateRealtimeContext())
             {
-                var service = new MessageStoreService(ctx);
-                service.Insert(expectedMessage);
+                var service = new RealtimeSubscriptionService(ctx);
+                service.Add(expected);
+
+                var actual = service.FindById(expected.Id);
+
+                Assert.NotNull(actual);
+                Assert.True(actual.Id > 0);
+                Assert.Equal("HL7", actual.SourceMessageType);
+                Assert.Equal("RAW", actual.MessageFormat);
+                Assert.True(actual.IsActive);
             }
         }
 
         [Fact]
-        public void MessageStoreServiceInsertNull()
+        public void RealtimeSubscriptionServiceAddNullSubscription()
         {
             using (var ctx = CreateRealtimeContext())
             {
-                var service = new MessageStoreService(ctx);
-                var exception = Record.Exception(() => service.Insert(null));
+                var service = new RealtimeSubscriptionService(ctx);
+                var exception = Record.Exception(() => service.Add(null));
                 Assert.NotNull(exception);
                 Assert.IsType<ArgumentNullException>(exception);
-                Assert.Equal("message", ((ArgumentNullException)exception).ParamName);
+                Assert.Equal("subscription", ((ArgumentNullException)exception).ParamName);
             }
         }
 
@@ -73,6 +79,7 @@ namespace Fabric.Realtime.Data.UnitTests
         {
             var ctx = CreateRealtimeContext();
             AddMessages(ctx);
+            AddSubscriptions(ctx);
             ctx.SaveChanges();
             return ctx;
         }
@@ -81,6 +88,20 @@ namespace Fabric.Realtime.Data.UnitTests
         {
             return new RealtimeContext(
                 new DbContextOptionsBuilder<RealtimeContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
+        }
+
+        private static void AddSubscriptions(RealtimeContext ctx)
+        {
+            ctx.Subscriptions.Add(
+                new RealtimeSubscription
+                {
+                    Id = 1,
+                    Name = "A",
+                    IsActive = true,
+                    SourceMessageType = "HL7",
+                    MessageFormat = "RAW",
+                    RoutingKey = "HL7.{MessageType}.{EventType}"
+                });
         }
 
         private static void AddMessages(RealtimeContext ctx)

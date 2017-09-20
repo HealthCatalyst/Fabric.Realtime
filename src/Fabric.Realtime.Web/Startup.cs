@@ -91,11 +91,6 @@
         /// </param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Configure logging
-            //loggerFactory.AddConsole();
-            //loggerFactory.AddDebug();
-            //loggerFactory.AddFile("logs/Realtime-{Date}.log");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

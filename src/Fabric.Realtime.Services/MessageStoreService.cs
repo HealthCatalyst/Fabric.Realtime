@@ -31,7 +31,7 @@
         }
 
         /// <inheritdoc />
-        public void Insert(HL7Message message)
+        public void Add(HL7Message message)
         {
             Guard.ArgumentNotNull(message, nameof(message));
             this.context.HL7Messages.Add(message);

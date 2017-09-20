@@ -19,7 +19,6 @@
         public void BuildModel(ModelBuilder builder)
         {
             builder.Entity<HL7Message>(ConfigureHL7Message);
-            ////builder.Entity<SubscriptionMessageType>(ConfigureSubscriptionMessageType);
             builder.Entity<RealtimeSubscription>(ConfigureSubscription);
             builder.Entity<ForwardingHistory>(ConfigureForwardingHistory);
         }

@@ -52,7 +52,7 @@
             { "Broker:AmqpUri", "amqp://guest:guest@localhost:5672" },
             { "InterfaceEngine:ExchangeName", "fabric.interfaceengine" },
             { "InterfaceEngine:QueueName", "fabric.interfaceengine.queue" },
-            { "InterfaceEngine:RoutingKey", "inbound" }
+            { "InterfaceEngine:RoutingKey", "mirth.connect.inbound" }
         };
 
         /// <summary>
