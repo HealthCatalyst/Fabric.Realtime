@@ -8,13 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Fabric.Realtime.Data\Fabric.Realtime.Data.csproj" />
+    <ProjectReference Include="..\..\..\src\Fabric.Realtime.Domain\Fabric.Realtime.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Fabric.Realtime.Services\Fabric.Realtime.Services.csproj" />
   </ItemGroup>
 
 </Project>

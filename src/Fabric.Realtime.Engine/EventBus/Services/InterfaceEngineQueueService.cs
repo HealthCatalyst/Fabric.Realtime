@@ -9,6 +9,9 @@
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
 
+    /// <summary>
+    /// Receives messages from the incoming queue.
+    /// </summary>
     public class InterfaceEngineQueueService : IDisposable, IInitializable
     {
         private IModel channel;
@@ -63,7 +66,10 @@
                     var message = Encoding.UTF8.GetString(body);
                     var task = this.eventHandler.HandleMessage(message);
                     var success = task.IsCompleted;
-                    if (success) this.channel.BasicAck(ea.DeliveryTag, false);
+                    if (success)
+                    {
+                        this.channel.BasicAck(ea.DeliveryTag, false);
+                    }
                 };
 
             this.channel.BasicConsume(this.interfaceEngine.Queue, false, this.consumer);

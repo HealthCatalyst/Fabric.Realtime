@@ -3,7 +3,7 @@
     using System;
     using System.Text;
 
-    using Fabric.Realtime.Data.Models;
+    using Fabric.Realtime.Domain;
     using Fabric.Realtime.Engine.EventBus.Models;
 
     using Newtonsoft.Json;

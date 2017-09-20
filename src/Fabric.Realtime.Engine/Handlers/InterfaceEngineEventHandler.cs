@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
 
-    using Fabric.Realtime.Data.Models;
     using Fabric.Realtime.Data.Stores;
+    using Fabric.Realtime.Domain;
     using Fabric.Realtime.Engine.EventBus.Models;
     using Fabric.Realtime.Engine.EventBus.Services;
     using Fabric.Realtime.Engine.Transformers;

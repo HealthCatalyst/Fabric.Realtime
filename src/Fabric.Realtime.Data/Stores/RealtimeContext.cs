@@ -1,7 +1,6 @@
 ﻿namespace Fabric.Realtime.Data.Stores
 {
-    using Fabric.Realtime.Data.Models;
-
+    using Fabric.Realtime.Domain;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -33,7 +32,7 @@
         /// <summary>
         /// Gets or sets the subscriptions.
         /// </summary>
-        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<RealtimeSubscription> Subscriptions { get; set; }
 
         /// <summary>
         /// Gets or sets the forwarding history.

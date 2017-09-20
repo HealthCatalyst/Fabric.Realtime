@@ -1,7 +1,6 @@
 ﻿namespace Fabric.Realtime.Data.Stores
 {
-    using Fabric.Realtime.Data.Models;
-
+    using Fabric.Realtime.Domain;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,7 +20,7 @@
         {
             builder.Entity<HL7Message>(ConfigureHL7Message);
             ////builder.Entity<SubscriptionMessageType>(ConfigureSubscriptionMessageType);
-            builder.Entity<Subscription>(ConfigureSubscription);
+            builder.Entity<RealtimeSubscription>(ConfigureSubscription);
             builder.Entity<ForwardingHistory>(ConfigureForwardingHistory);
         }
 
@@ -124,34 +123,15 @@
                 .IsRequired();
         }
 
-        /////// <summary>
-        /////// Builds the model for subscription message types.
-        /////// </summary>
-        /////// <param name="builder">
-        /////// The model builder instance used for constructing a model for a context.
-        /////// </param>
-        ////private static void ConfigureSubscriptionMessageType(EntityTypeBuilder<SubscriptionMessageType> builder)
-        ////{
-        ////    builder.ToTable(nameof(SubscriptionMessageType));
-
-        ////    builder.Property(ci => ci.Id)
-        ////        .UseSqlServerIdentityColumn()
-        ////        .IsRequired();
-
-        ////    builder.Property(ci => ci.MessageType)
-        ////        .IsRequired()
-        ////        .HasMaxLength(255);
-        ////}
-
         /// <summary>
         /// Builds the model for subscriptions.
         /// </summary>
         /// <param name="builder">
         /// The model builder instance used for constructing a model for a context.
         /// </param>
-        private static void ConfigureSubscription(EntityTypeBuilder<Subscription> builder)
+        private static void ConfigureSubscription(EntityTypeBuilder<RealtimeSubscription> builder)
         {
-            builder.ToTable(nameof(Subscription));
+            builder.ToTable(nameof(RealtimeSubscription));
 
             builder.Property(ci => ci.Id)
                 .UseSqlServerIdentityColumn()

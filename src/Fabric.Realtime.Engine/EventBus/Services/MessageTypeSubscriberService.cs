@@ -2,11 +2,13 @@
 {
     using System.Collections.Generic;
 
-    using Fabric.Realtime.Data.Models;
     using Fabric.Realtime.Data.Stores;
     using Fabric.Realtime.Engine.EventBus.Models;
 
     using Microsoft.EntityFrameworkCore;
+
+    using RabbitMQ.Client.MessagePatterns;
+    using Fabric.Realtime.Domain;
 
     public class MessageTypeSubscriberService : IInitializable
     {
@@ -15,12 +17,12 @@
         public MessageTypeSubscriberService(RealtimeContext context)
         {
             this.context = context;
-            this.EventSubscriptionDictionary = new Dictionary<string, List<Subscription>>();
+            this.EventSubscriptionDictionary = new Dictionary<string, List<RealtimeSubscription>>();
         }
 
-        public Dictionary<string, List<Subscription>> EventSubscriptionDictionary { get; set; }
+        public Dictionary<string, List<RealtimeSubscription>> EventSubscriptionDictionary { get; set; }
 
-        public void AddSubscription(Subscription subscription)
+        public void AddSubscription(RealtimeSubscription subscription)
         {
             // TODO Implement AddSubscription
             ////if (subscription.MessageTypes == null) return;
@@ -39,11 +41,11 @@
             ////    }
         }
 
-        public List<Subscription> GetSubscriptions(string messageEvent)
+        public List<RealtimeSubscription> GetSubscriptions(string messageEvent)
         {
-            if (this.EventSubscriptionDictionary.TryGetValue(messageEvent, out List<Subscription> subscriptionList))
+            if (this.EventSubscriptionDictionary.TryGetValue(messageEvent, out List<RealtimeSubscription> subscriptionList))
                 return subscriptionList;
-            return new List<Subscription>();
+            return new List<RealtimeSubscription>();
         }
 
         public void Initialize()

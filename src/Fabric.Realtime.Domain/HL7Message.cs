@@ -1,7 +1,10 @@
-﻿namespace Fabric.Realtime.Data.Models
+﻿namespace Fabric.Realtime.Domain
 {
     using System;
 
+    /// <summary>
+    /// An HL7 message.
+    /// </summary>
     public class HL7Message : IMessage
     {
         public long Id { get; set; }

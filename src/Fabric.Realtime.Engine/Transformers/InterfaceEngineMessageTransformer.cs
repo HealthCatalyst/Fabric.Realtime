@@ -1,15 +1,31 @@
 ﻿namespace Fabric.Realtime.Engine.Transformers
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
-    using Fabric.Realtime.Data.Models;
+    using Fabric.Realtime.Domain;
     using Fabric.Realtime.Engine.EventBus.Models;
 
+    /// <summary>
+    /// The interface engine message transformer.
+    /// </summary>
     public class InterfaceEngineMessageTransformer : IInterfaceEngineMessageTransformer
     {
-        private readonly DateTime epochDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        /// <summary>
+        /// The epoch date time in Coordinated Universal Time (UTC).
+        /// </summary>
+        private readonly DateTime epochDateTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
+        /// <summary>
+        /// Transforms a InterfaceEngineMessage to an IMessage type.
+        /// </summary>
+        /// <param name="interfaceEngineMessage">
+        /// The interface engine message.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IMessage"/>.
+        /// </returns>
         public IMessage Transform(InterfaceEngineMessage interfaceEngineMessage)
         {
             // ReSharper disable once UsePatternMatching
@@ -24,11 +40,7 @@
                 Protocol = interfaceEngineMessage.Protocol,
                 ProtocolVersion = interfaceEngineMessage.Version,
                 MessageHash = interfaceEngineMessage.MessageHash,
-                MessageDate =
-                    DateTime.ParseExact(
-                        hl7SourceMessage.MessageDate,
-                        "yyyyMMddHHmmssff",
-                        CultureInfo.InvariantCulture),
+                MessageDate = ParseMessageDate(hl7SourceMessage.MessageDate),
                 ExternalPatientID = hl7SourceMessage.ExternalPatientID,
                 InternalPatientID = hl7SourceMessage.InternalPatientID,
                 MessageType = hl7SourceMessage.MessageType,
@@ -38,8 +50,30 @@
                 RawMessage = interfaceEngineMessage.RawMessage,
                 XmlMessage = interfaceEngineMessage.XmlMessage,
                 TransmissionReceiptTime =
-                    this.epochDateTimeUtc.AddMilliseconds(interfaceEngineMessage.TransmissionReceiptTimeInMillis)
+                    this.epochDateTime.AddMilliseconds(interfaceEngineMessage.TransmissionReceiptTimeInMillis)
             };
+        }
+
+        /// <summary>
+        /// Parses the message date.
+        /// </summary>
+        /// <param name="dateString">
+        /// The source message date as a string.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DateTimeOffset"/> or null if unable to parse the given date.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1117:ParametersMustBeOnSameLineOrSeparateLines", Justification = "Reviewed. Suppression is OK here.")]
+        private static DateTimeOffset? ParseMessageDate(string dateString)
+        {
+            return DateTime.TryParseExact(
+                       dateString,
+                       "yyyyMMddHHmmssff",
+                       CultureInfo.InvariantCulture,
+                       DateTimeStyles.None,
+                       out var dt)
+                       ? new DateTimeOffset(dt)
+                       : (DateTimeOffset?)null;
         }
     }
 }

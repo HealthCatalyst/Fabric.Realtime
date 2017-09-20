@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Fabric.Realtime.Data.Models
+﻿namespace Fabric.Realtime.Domain
 {
-    public class Subscription
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// A message forwarding subscription.
+    /// </summary>
+    public class RealtimeSubscription
     {
         public int Id { get; set; }
 

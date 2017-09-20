@@ -11,40 +11,91 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
 
+    using Serilog;
+    using Serilog.Events;
+
+    /// <summary>
+    /// The Fabric.Realtime web application.
+    /// </summary>
     public class Program
     {
-        private static readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
+        /// <summary>
+        /// The token source used to signal worker tasks to exit.
+        /// </summary>
+        private static readonly CancellationTokenSource TokenSource = new CancellationTokenSource();
 
+        /// <summary>
+        /// The worker tasks.
+        /// </summary>
         private static Task[] workerTasks;
 
-        private static void StartupWorkers(IWebHost host)
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        /// <param name="args">
+        /// The args.
+        /// </param>
+        public static void Main(string[] args)
         {
-            workerTasks = StartTasks(host);
+            InitializeLogging();
+            Log.Logger.Information(@"Starting application.");
+
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseApplicationInsights()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseStartup<Startup>()
+                .UseSerilog()
+                .Build();
+
+            StartupWorkers(host.Services);
+            host.Run();
+        }
+
+        /// <summary>
+        /// The startup workers.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// The service provider.
+        /// </param>
+        private static void StartupWorkers(IServiceProvider serviceProvider)
+        {
+            workerTasks = StartTasks(serviceProvider);
 
             Console.WriteLine(@"Press <ctrl>+C to exit.");
             Console.CancelKeyPress += (sender, eventArgs) =>
                 {
-                    tokenSource.Cancel();
+                    TokenSource.Cancel();
                 };
         }
 
-        public static Task[] StartTasks(IWebHost host)
+        /// <summary>
+        /// Start background worker tasks.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// The service provider.
+        /// </param>
+        /// <returns>
+        /// An array of tasks.
+        /// </returns>
+        private static Task[] StartTasks(IServiceProvider serviceProvider)
         {
-            var workers = host.Services.GetServices<IBackgroundWorker>();
-            return workers.Select(worker => worker.RunAsync(tokenSource.Token)).ToArray();
+            var workers = serviceProvider.GetServices<IBackgroundWorker>();
+            return workers.Select(worker => worker.RunAsync(TokenSource.Token)).ToArray();
         }
 
-        public static void Main(string[] args)
+        /// <summary>
+        /// Configure and initialize the logging system.
+        /// </summary>
+        private static void InitializeLogging()
         {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
-
-            StartupWorkers(host);
-            host.Run();
+            // Using Serilog
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.RollingFile("logs/Realtime-{Date}.log")
+                .CreateLogger();
         }
     }
 }
