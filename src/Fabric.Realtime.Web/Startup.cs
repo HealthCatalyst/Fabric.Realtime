@@ -6,8 +6,12 @@
     using Fabric.Realtime.Core;
     using Fabric.Realtime.Data.Stores;
     using Fabric.Realtime.Engine.Configuration;
+    using Fabric.Realtime.Engine.EventBus.Models;
+    using Fabric.Realtime.Engine.EventBus.Services;
+    using Fabric.Realtime.Engine.Handlers;
     using Fabric.Realtime.Engine.Record;
     using Fabric.Realtime.Engine.Replay;
+    using Fabric.Realtime.Engine.Transformers;
     using Fabric.Realtime.Services;
 
     using Microsoft.AspNetCore.Builder;
@@ -18,6 +22,8 @@
     using Microsoft.Extensions.Logging;
 
     using Serilog;
+
+    using Swashbuckle.AspNetCore.Swagger;
 
     /// <summary>
     /// Application startup and initialization.
@@ -59,10 +65,13 @@
             // Logging
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
+            // Register application services
+            services.AddSingleton<IRealtimeConfiguration>(new RealtimeConfiguration(this.Configuration));
             services.AddSingleton<IBackgroundWorker, MessageReceiveWorker>();
             services.AddSingleton<IBackgroundWorker, MessageReplayWorker>();
-            services.AddSingleton<IRealtimeConfiguration, RealtimeConfiguration>();
             services.AddTransient<IMessageStoreService, MessageStoreService>();
+            services.AddTransient<IRealtimeSubscriptionService, RealtimeSubscriptionService>();
+
             var databaseSettings = this.Configuration.GetSection("Database").Get<DatabaseSettings>();
             services.AddDbContext<RealtimeContext>(
                 options =>
@@ -75,6 +84,30 @@
                             sqlOptions.EnableRetryOnFailure();
                         });
                 });
+
+            // Interface engine services
+            services.AddSingleton<MessageTypeSubscriberService, MessageTypeSubscriberService>();
+            services.AddSingleton<IInterfaceEngineEventHandler, InterfaceEngineEventHandler>();
+            services.AddSingleton<IInterfaceEngineMessageTransformer>(new InterfaceEngineMessageTransformer());
+
+            ////// TODO Inject configuration
+            ////services.AddSingleton<MessageBrokerExchangeClient>(
+            ////    new MessageBrokerExchangeClient(
+            ////        hostName: "localhost",
+            ////        port: 5672,
+            ////        exchange: "fabric.interfaceengine",
+            ////        queue: "fabric.interfaceengine",
+            ////        routingKey: "mirth.connect.inbound"));
+
+            services.AddSingleton<InterfaceEngineQueueService, InterfaceEngineQueueService>();
+
+            // Use Swashbuckle for documenting APIs built on ASP.NET Core
+            services.AddSwaggerGen(
+                c =>
+                    {
+                        c.SwaggerDoc("v1", new Info { Title = "Fabric.Realtime API", Version = "v1" });
+                        c.DescribeAllEnumsAsStrings();
+                    });
         }
 
         /// <summary>
@@ -110,8 +143,16 @@
                         template: "{controller=Home}/{action=Index}/{id?}");
                 });
 
+            // Initialize services 
             var context = app.ApplicationServices.GetRequiredService<RealtimeContext>();
             DbInitializer.Initialize(context);
+
+            // TODO Find a better way to do this?
+            MessageTypeSubscriberService messageEventSubscriberService = app.ApplicationServices.GetRequiredService<MessageTypeSubscriberService>();
+            messageEventSubscriberService.Initialize();
+
+            var interfaceEngineQueueService = app.ApplicationServices.GetRequiredService<InterfaceEngineQueueService>();
+            interfaceEngineQueueService.Initialize();
         }
     }
 }
