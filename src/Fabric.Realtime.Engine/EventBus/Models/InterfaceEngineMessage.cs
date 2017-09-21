@@ -1,33 +1,42 @@
 ﻿namespace Fabric.Realtime.Engine.EventBus.Models
 {
+    /// <summary>
+    /// The interface engine message.
+    /// </summary>
     public class InterfaceEngineMessage
     {
-        public InterfaceEngineMessage(
-            string protocol,
-            string version,
-            string messageHash,
-            long transmissionReceiptTimeInMillis,
-            string rawMessage,
-            string xmlMessage)
-        {
-            this.Protocol = protocol;
-            this.Version = version;
-            this.MessageHash = messageHash;
-            this.TransmissionReceiptTimeInMillis = transmissionReceiptTimeInMillis;
-            this.RawMessage = rawMessage;
-            this.XmlMessage = xmlMessage;
-        }
+        /// <summary>
+        /// Gets or sets the message hash.
+        /// </summary>
+        public string MessageHash { get; set; }
 
-        public string MessageHash { get; }
+        /// <summary>
+        /// Gets or sets the protocol (e.g. HL7, X12, etc.).
+        /// </summary>
+        public string Protocol { get; set; }
 
-        public string Protocol { get; }
+        /// <summary>
+        /// Gets or sets the raw source message.
+        /// </summary>
+        /// <remarks>
+        /// This will be the content of the original raw source 
+        /// message (e.g. HL7, X12, etc.) that was received.
+        /// </remarks>
+        public string RawMessage { get; set; }
 
-        public string RawMessage { get; }
+        /// <summary>
+        /// Gets or sets the transmission receipt time in millis.
+        /// </summary>
+        public long TransmissionReceiptTimeInMillis { get; set; }
 
-        public long TransmissionReceiptTimeInMillis { get; }
+        /// <summary>
+        /// Gets or sets the version.
+        /// </summary>
+        public string Version { get; set; }
 
-        public string Version { get; }
-
-        public string XmlMessage { get; }
+        /// <summary>
+        /// Gets or sets the XML message, if available.
+        /// </summary>
+        public string XmlMessage { get; set; }
     }
 }
