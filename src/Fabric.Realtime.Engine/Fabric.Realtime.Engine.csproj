@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EventBus\Models\MessageBroker.cs" />
+    <Compile Remove="EventBus\Models\MessageBrokerExchange.cs" />
+    <Compile Remove="EventBus\Models\MessageBrokerExchangeClient.cs" />
+    <Compile Remove="EventBus\Services\ExternalApplicationQueueService.cs" />
     <Compile Remove="SerilogLoggingService.cs" />
   </ItemGroup>
 
@@ -14,6 +18,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
     <PackageReference Include="Serilog" Version="2.5.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.0" />
   </ItemGroup>
@@ -21,6 +27,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Fabric.Realtime.Core\Fabric.Realtime.Core.csproj" />
     <ProjectReference Include="..\Fabric.Realtime.Data\Fabric.Realtime.Data.csproj" />
+    <ProjectReference Include="..\Fabric.Realtime.Domain\Fabric.Realtime.Domain.csproj" />
+    <ProjectReference Include="..\Fabric.Realtime.Services\Fabric.Realtime.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EventBus\Models\" />
+    <Folder Include="EventBus\Services\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Services\" />
+    <Folder Include="Transformers\" />
   </ItemGroup>
 
 </Project>

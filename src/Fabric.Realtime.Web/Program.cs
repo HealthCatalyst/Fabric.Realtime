@@ -1,51 +1,101 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Fabric.Realtime.Core;
-using Microsoft.AspNetCore.Hosting;
-using Fabric.Realtime.Engine.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Fabric.Realtime.Web
+﻿namespace Fabric.Realtime.Web
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fabric.Realtime.Core;
+
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using Serilog;
+    using Serilog.Events;
+
+    /// <summary>
+    /// The Fabric.Realtime web application.
+    /// </summary>
     public class Program
     {
-        private static readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
+        /// <summary>
+        /// The token source used to signal worker tasks to exit.
+        /// </summary>
+        private static readonly CancellationTokenSource TokenSource = new CancellationTokenSource();
 
+        /// <summary>
+        /// The worker tasks.
+        /// </summary>
+        private static Task[] workerTasks;
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        /// <param name="args">
+        /// The args.
+        /// </param>
         public static void Main(string[] args)
         {
-            var configurationRoot = RealtimeConfiguration.BuildConfigurationRoot();
+            InitializeLogging();
+            Log.Logger.Information(@"Starting application.");
+
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseApplicationInsights()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
-                .UseConfiguration(configurationRoot)
-                //.UseApplicationInsights()
+                .UseSerilog()
                 .Build();
 
-            Run(host);
-            //host.Run();
+            StartupWorkers(host.Services);
+            host.Run();
         }
 
-        private static void Run(IWebHost host)
+        /// <summary>
+        /// The startup workers.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// The service provider.
+        /// </param>
+        private static void StartupWorkers(IServiceProvider serviceProvider)
         {
-            var taskList = StartTasks(host);
+            workerTasks = StartTasks(serviceProvider);
 
             Console.WriteLine(@"Press <ctrl>+C to exit.");
             Console.CancelKeyPress += (sender, eventArgs) =>
-            {
-                tokenSource.Cancel();
-            };
-            Task.WaitAll(taskList);
+                {
+                    TokenSource.Cancel();
+                };
         }
 
-        public static Task[] StartTasks(IWebHost host)
+        /// <summary>
+        /// Start background worker tasks.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// The service provider.
+        /// </param>
+        /// <returns>
+        /// An array of tasks.
+        /// </returns>
+        private static Task[] StartTasks(IServiceProvider serviceProvider)
         {
-            var workers = host.Services.GetServices<IBackgroundWorker>();
-            return workers.Select(worker => worker.RunAsync(tokenSource.Token)).ToArray();
+            var workers = serviceProvider.GetServices<IBackgroundWorker>();
+            return workers.Select(worker => worker.RunAsync(TokenSource.Token)).ToArray();
         }
 
+        /// <summary>
+        /// Configure and initialize the logging system.
+        /// </summary>
+        private static void InitializeLogging()
+        {
+            // Using Serilog
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.RollingFile("logs/Realtime-{Date}.log")
+                .CreateLogger();
+        }
     }
 }

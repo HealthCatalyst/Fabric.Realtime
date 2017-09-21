@@ -1,18 +1,34 @@
-﻿using Fabric.Realtime.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace Fabric.Realtime.Data.Stores
+﻿namespace Fabric.Realtime.Data.Stores
 {
+    using Fabric.Realtime.Domain;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    /// <summary>
+    /// The realtime model builder.
+    /// </summary>
     public class RealtimeModelBuilder
     {
+        /// <summary>
+        /// Builds the Entity Framework model that defines the entities, 
+        /// the relationships between them, and how they map to the database.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         public void BuildModel(ModelBuilder builder)
         {
             builder.Entity<HL7Message>(ConfigureHL7Message);
-            builder.Entity<Subscription>(ConfigureSubscription);
+            builder.Entity<RealtimeSubscription>(ConfigureSubscription);
             builder.Entity<ForwardingHistory>(ConfigureForwardingHistory);
         }
 
+        /// <summary>
+        /// Builds the model for HL7 messages.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         private static void ConfigureHL7Message(EntityTypeBuilder<HL7Message> builder)
         {
             builder.ToTable(nameof(HL7Message));
@@ -25,11 +41,11 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.MessageVersion)
+            builder.Property(ci => ci.ProtocolVersion)
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.MessageType)
+            builder.Property(ci => ci.Protocol)
                 .IsRequired()
                 .HasMaxLength(255);
 
@@ -82,6 +98,12 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired(false);
         }
 
+        /// <summary>
+        /// Builds the model for message forwarding history.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
         private static void ConfigureForwardingHistory(EntityTypeBuilder<ForwardingHistory> builder)
         {
             builder.ToTable(nameof(ForwardingHistory));
@@ -96,13 +118,19 @@ namespace Fabric.Realtime.Data.Stores
             builder.Property(ci => ci.SubscriptionId)
                 .IsRequired();
 
-            builder.Property(ci => ci.Sent)
+            builder.Property(ci => ci.SentOn)
                 .IsRequired();
         }
 
-        private static void ConfigureSubscription(EntityTypeBuilder<Subscription> builder)
+        /// <summary>
+        /// Builds the model for subscriptions.
+        /// </summary>
+        /// <param name="builder">
+        /// The model builder instance used for constructing a model for a context.
+        /// </param>
+        private static void ConfigureSubscription(EntityTypeBuilder<RealtimeSubscription> builder)
         {
-            builder.ToTable(nameof(Subscription));
+            builder.ToTable(nameof(RealtimeSubscription));
 
             builder.Property(ci => ci.Id)
                 .UseSqlServerIdentityColumn()
@@ -116,10 +144,6 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired()
                 .HasDefaultValue(true);
 
-            builder.Property(ci => ci.SourceMessageType)
-                .IsRequired()
-                .HasMaxLength(255);
-
             builder.Property(ci => ci.MessageFormat)
                 .IsRequired()
                 .HasMaxLength(255);
@@ -128,21 +152,21 @@ namespace Fabric.Realtime.Data.Stores
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.LastModified)
+            builder.Property(ci => ci.LastModifiedOn)
                 .IsRequired();
 
             builder.Property(ci => ci.LastModifiedBy)
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(ci => ci.Created)
+            builder.Property(ci => ci.CreatedOn)
                 .IsRequired();
 
             builder.Property(ci => ci.CreatedBy)
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.HasMany(typeof(ForwardingHistory)).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(s => s.ForwardingHistory).WithOne(h => h.Subscription).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
