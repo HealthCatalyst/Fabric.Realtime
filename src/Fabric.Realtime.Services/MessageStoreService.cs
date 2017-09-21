@@ -45,6 +45,12 @@
         }
 
         /// <inheritdoc />
+        public IEnumerable<HL7Message> GetAll()
+        {
+            return this.context.HL7Messages.AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc />
         public IEnumerable<HL7Message> FindByTimeRange(DateTimeOffset startTime, DateTimeOffset endTime)
         {
             throw new NotImplementedException();

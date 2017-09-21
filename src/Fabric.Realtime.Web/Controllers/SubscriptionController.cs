@@ -1,51 +1,62 @@
-﻿namespace Fabric.Realtime.Controllers
+﻿namespace Fabric.Realtime.Web.Controllers
 {
+    // ReSharper disable StyleCop.SA1650
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    using Fabric.Realtime.Data.Models;
-    using Fabric.Realtime.Data.Stores;
-    using Fabric.Realtime.Engine.EventBus.Services;
+    using Fabric.Realtime.Domain;
+    using Fabric.Realtime.Services;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// The subscription controller.
+    /// </summary>
     [Route("api/v1/[controller]")]
     public class SubscriptionController : Controller
     {
-        private readonly MessageTypeSubscriberService _messageTypeSubscriberService;
+        /// <summary>
+        /// The subscription management service.
+        /// </summary>
+        private readonly IRealtimeSubscriptionService subscriptionService;
 
-        private readonly RealtimeContext _realtimeContext;
-
-        public SubscriptionController(
-            RealtimeContext realtimeContext,
-            MessageTypeSubscriberService messageTypeSubscriberService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SubscriptionController"/> class.
+        /// </summary>
+        /// <param name="subscriptionService">
+        /// The subscription service.
+        /// </param>
+        public SubscriptionController(IRealtimeSubscriptionService subscriptionService)
         {
-            this._realtimeContext = realtimeContext;
-            this._messageTypeSubscriberService = messageTypeSubscriberService;
+            this.subscriptionService = subscriptionService;
         }
 
-        // GET api/v1/subscription
+        /// <summary>
+        /// GET api/v1/subscription.
+        /// </summary>
+        /// <returns>
+        /// An enumerable of <see cref="RealtimeSubscription"/> entities.
+        /// </returns>
         [HttpGet]
-        public IEnumerable<Subscription> Get()
+        public IEnumerable<RealtimeSubscription> Get()
         {
             // Return simple list of messages for demo purposes
-            var setOfSubscriptions = this._realtimeContext.Subscriptions.Include(o => o.MessageTypes);
-            var simpleListOfMessages = setOfSubscriptions.ToList();
-            return simpleListOfMessages.ToArray();
+            return this.subscriptionService.GetAll();
         }
 
+        /// <summary>
+        /// HTTP POST api/v1/subscription.
+        /// </summary>
+        /// <param name="subscription">
+        /// The subscription.
+        /// </param>
         [HttpPost]
-        public void Post([FromBody] Subscription subscription)
+        public void Post([FromBody] RealtimeSubscription subscription)
         {
-            // Save to database
-            this._realtimeContext.Subscriptions.Add(subscription);
-            subscription.Created = DateTime.UtcNow;
-            this._realtimeContext.SaveChanges();
-
-            // Add to active message type subscriber service
-            this._messageTypeSubscriberService.AddSubscription(subscription);
+            // Set timestamps and save to database
+            subscription.CreatedOn = DateTimeOffset.Now;
+            subscription.LastModifiedOn = subscription.CreatedOn;
+            this.subscriptionService.Add(subscription);
         }
     }
 }

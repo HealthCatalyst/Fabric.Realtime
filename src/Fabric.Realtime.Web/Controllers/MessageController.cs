@@ -1,47 +1,48 @@
-﻿namespace Fabric.Realtime.Controllers
+﻿namespace Fabric.Realtime.Web.Controllers
 {
+    // ReSharper disable StyleCop.SA1650
     using System.Collections.Generic;
-    using System.Linq;
 
-    using Fabric.Realtime.Data.Models;
-    using Fabric.Realtime.Data.Stores;
-    using Fabric.Realtime.Engine.EventBus.Models;
-    using Fabric.Realtime.Engine.Transformers;
+    using Fabric.Realtime.Domain;
+    using Fabric.Realtime.Services;
 
     using Microsoft.AspNetCore.Mvc;
 
+    // TODO Enhance this API to return messages within a specified time range and possibly with a max number option.
+    
+    /// <summary>
+    /// The message controller.
+    /// </summary>
     [Route("api/v1/[controller]")]
     public class MessageController : ControllerBase
     {
-        private readonly RealtimeContext _realtimeContext;
+        /// <summary>
+        /// The message store service.
+        /// </summary>
+        private readonly IMessageStoreService messageStoreService;
 
-        private readonly IInterfaceEngineMessageTransformer _transformer;
-
-        public MessageController(RealtimeContext context, IInterfaceEngineMessageTransformer transformer)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageController"/> class.
+        /// </summary>
+        /// <param name="messageStoreService">
+        /// The message store service.
+        /// </param>
+        public MessageController(IMessageStoreService messageStoreService)
         {
-            this._realtimeContext = context;
-            this._transformer = transformer;
+            this.messageStoreService = messageStoreService;
         }
 
-        // GET api/v1/message
+        /// <summary>
+        /// GET api/v1/message
+        /// </summary>
+        /// <returns>
+        /// Enumerable of <see cref="HL7Message"/>.
+        /// </returns>
         [HttpGet]
-        public IEnumerable<IMessage> Get()
+        public IEnumerable<HL7Message> Get()
         {
             // Return simple list of messages for demo purposes
-            var setOfMessages = this._realtimeContext.HL7Messages;
-            var simpleListOfMessages = setOfMessages.ToList();
-            return simpleListOfMessages.ToArray();
-        }
-
-        [HttpPost]
-        public void Post([FromBody] InterfaceEngineMessage interfaceEngineMessage)
-        {
-            var message = this._transformer.Transform(interfaceEngineMessage);
-            if (message.Protocol.Equals(MessageProtocol.HL7))
-            {
-                this._realtimeContext.HL7Messages.Add((HL7Message)message);
-                this._realtimeContext.SaveChanges();
-            }
+            return this.messageStoreService.GetAll();
         }
     }
 }

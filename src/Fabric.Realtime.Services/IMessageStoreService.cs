@@ -30,6 +30,14 @@
         HL7Message FindById(long id);
 
         /// <summary>
+        /// Gets all messages.
+        /// </summary>
+        /// <returns>
+        /// An enumerable of <see cref="HL7Message"/>.
+        /// </returns>
+        IEnumerable<HL7Message> GetAll();
+
+        /// <summary>
         /// Finds all messages in the given time range.
         /// </summary>
         /// <param name="startTime">

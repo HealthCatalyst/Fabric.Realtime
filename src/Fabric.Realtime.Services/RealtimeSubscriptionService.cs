@@ -46,6 +46,12 @@
         }
 
         /// <inheritdoc />
+        public IEnumerable<RealtimeSubscription> GetAll()
+        {
+            return this.context.Subscriptions.AsNoTracking().ToList();
+        }
+
+        /// <inheritdoc />
         public RealtimeSubscription FindById(long id)
         {
             return this.context.Subscriptions.AsNoTracking().FirstOrDefault(subscription => subscription.Id == id);
