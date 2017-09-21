@@ -8,6 +8,9 @@
     using Fabric.Realtime.Services;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Azure.KeyVault.Models;
+
+    using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
     /// The subscription controller.
@@ -32,7 +35,7 @@
         }
 
         /// <summary>
-        /// GET api/v1/subscription.
+        /// Gets all subscriptions.
         /// </summary>
         /// <returns>
         /// An enumerable of <see cref="RealtimeSubscription"/> entities.
@@ -45,7 +48,23 @@
         }
 
         /// <summary>
-        /// HTTP POST api/v1/subscription.
+        /// Gets a subscription by id.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier.
+        /// </param>
+        /// <returns>
+        /// The <see cref="RealtimeSubscription"/>.
+        /// </returns>
+        [HttpGet("{id}")]
+        public RealtimeSubscription Get(long id)
+        {
+            // Return simple list of messages for demo purposes
+            return this.subscriptionService.FindById(id);
+        }
+
+        /// <summary>
+        /// Add a new subscription.
         /// </summary>
         /// <param name="subscription">
         /// The subscription.
@@ -57,6 +76,28 @@
             subscription.CreatedOn = DateTimeOffset.Now;
             subscription.LastModifiedOn = subscription.CreatedOn;
             this.subscriptionService.Add(subscription);
+        }
+
+        /// <summary>
+        /// Update an existing subscription.
+        /// </summary>
+        /// <param name="subscription">
+        /// The subscription.
+        /// </param>
+        [HttpPut]
+        public void Put([FromBody] RealtimeSubscription subscription)
+        {
+        }
+
+        /// <summary>
+        /// Delete an existing subscription.
+        /// </summary>
+        /// <param name="id">
+        /// The subscription unique identifier.
+        /// </param>
+        [HttpDelete]
+        public void Delete(long id)
+        {
         }
     }
 }

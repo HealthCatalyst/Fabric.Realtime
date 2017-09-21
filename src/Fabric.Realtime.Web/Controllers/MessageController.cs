@@ -1,6 +1,7 @@
 ﻿namespace Fabric.Realtime.Web.Controllers
 {
     // ReSharper disable StyleCop.SA1650
+    using System;
     using System.Collections.Generic;
 
     using Fabric.Realtime.Domain;
@@ -35,14 +36,35 @@
         /// <summary>
         /// GET api/v1/message
         /// </summary>
+        /// <param name="startTime">
+        /// The start time.
+        /// </param>
+        /// <param name="endTime">
+        /// The end time.
+        /// </param>
         /// <returns>
         /// Enumerable of <see cref="HL7Message"/>.
         /// </returns>
         [HttpGet]
-        public IEnumerable<HL7Message> Get()
+        public IEnumerable<HL7Message> Get(DateTimeOffset startTime, DateTimeOffset endTime)
         {
             // Return simple list of messages for demo purposes
             return this.messageStoreService.GetAll();
+        }
+
+        /// <summary>
+        /// Retrieves a message by id.
+        /// </summary>
+        /// <param name="id">
+        /// The unique message identifier.
+        /// </param>
+        /// <returns>
+        /// The <see cref="HL7Message"/>.
+        /// </returns>
+        [HttpGet("{id}")]
+        public HL7Message Get(long id)
+        {
+            return this.messageStoreService.FindById(id);
         }
     }
 }
