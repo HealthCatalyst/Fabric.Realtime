@@ -10,7 +10,7 @@ documentation: https://hub.docker.com/_/rabbitmq/
 
 
 # To send a message:
-curl -u guest:guest -H "content-type:application/json" -X POST -d'{"properties":{"delivery_mode":2},"routing_key":"fabric.interfaceengine","payload":"HI","payload_encoding":"string"}' http://localhost:15672/api/exchanges/%2F/amq.default/publish
+curl -u guest:guest -H "content-type:application/json" -X POST -d'{"properties":{"delivery_mode":2},"routing_key":"fabric.interfaceengine","payload":"{MessageHash:\"\",Protocol:\"HL7\",RawMessage: \"\",TransmissionReceiptTimeInMillis:\"1\",Version:\"\",XmlMessage:\"\",ExternalPatientID:\"EPID\", InternalPatientID:\"PID\",MessageDate:\"\",MessageEvent: \"\",MessageType:\"\",ReceivingApplication:\"\",SendingApplication:\"\"}","payload_encoding":"string"}' http://localhost:15672/api/exchanges/%2F/amq.default/publish
 
 # To view existing messages:
 curl -i -u guest:guest -H "content-type:application/json" -X POST http://localhost:15672/api/queues/%2F/fabric.interfaceengine/get -d'{"count":5,"requeue":true,"encoding":"auto","truncate":50000}'
