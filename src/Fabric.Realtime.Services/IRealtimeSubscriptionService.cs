@@ -18,6 +18,14 @@
         void Add(RealtimeSubscription subscription);
 
         /// <summary>
+        /// Gets all subscriptions.
+        /// </summary>
+        /// <returns>
+        /// An enumerable of <see cref="RealtimeSubscription"/> entities.
+        /// </returns>
+        IEnumerable<RealtimeSubscription> GetAll();
+
+        /// <summary>
         /// Finds a subscription by the given identifier.
         /// </summary>
         /// <param name="id">

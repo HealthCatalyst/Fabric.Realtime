@@ -156,14 +156,12 @@
                 .IsRequired();
 
             builder.Property(ci => ci.LastModifiedBy)
-                .IsRequired()
                 .HasMaxLength(255);
 
             builder.Property(ci => ci.CreatedOn)
                 .IsRequired();
 
             builder.Property(ci => ci.CreatedBy)
-                .IsRequired()
                 .HasMaxLength(255);
 
             builder.HasMany(s => s.ForwardingHistory).WithOne(h => h.Subscription).OnDelete(DeleteBehavior.Cascade);

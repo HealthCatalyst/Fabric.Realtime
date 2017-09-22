@@ -6,7 +6,6 @@
     using Fabric.Realtime.Core;
     using Fabric.Realtime.Data.Stores;
     using Fabric.Realtime.Engine.Configuration;
-    using Fabric.Realtime.Engine.EventBus.Models;
     using Fabric.Realtime.Engine.EventBus.Services;
     using Fabric.Realtime.Engine.Handlers;
     using Fabric.Realtime.Engine.Record;
@@ -89,16 +88,6 @@
             services.AddSingleton<MessageTypeSubscriberService, MessageTypeSubscriberService>();
             services.AddSingleton<IInterfaceEngineEventHandler, InterfaceEngineEventHandler>();
             services.AddSingleton<IInterfaceEngineMessageTransformer>(new InterfaceEngineMessageTransformer());
-
-            ////// TODO Inject configuration
-            ////services.AddSingleton<MessageBrokerExchangeClient>(
-            ////    new MessageBrokerExchangeClient(
-            ////        hostName: "localhost",
-            ////        port: 5672,
-            ////        exchange: "fabric.interfaceengine",
-            ////        queue: "fabric.interfaceengine",
-            ////        routingKey: "mirth.connect.inbound"));
-
             services.AddSingleton<InterfaceEngineQueueService, InterfaceEngineQueueService>();
 
             // Use Swashbuckle for documenting APIs built on ASP.NET Core
@@ -142,6 +131,12 @@
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");
                 });
+
+            // Insert middleware to expose the generated Swagger as JSON endpoint.
+            app.UseSwagger();
+
+            // Insert the swagger-ui middleware to expose interactive documentation.
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fabric.Realtime API V1"); });
 
             // Initialize services 
             var context = app.ApplicationServices.GetRequiredService<RealtimeContext>();
