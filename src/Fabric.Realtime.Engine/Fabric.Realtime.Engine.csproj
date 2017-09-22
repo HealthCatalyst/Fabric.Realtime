@@ -9,6 +9,9 @@
     <Compile Remove="EventBus\Models\MessageBrokerExchange.cs" />
     <Compile Remove="EventBus\Models\MessageBrokerExchangeClient.cs" />
     <Compile Remove="EventBus\Services\ExternalApplicationQueueService.cs" />
+    <Compile Remove="EventBus\Services\InterfaceEngineQueueService.cs" />
+    <Compile Remove="EventBus\Services\MessageTypeSubscriberService.cs" />
+    <Compile Remove="Replay\MessageReplayWorker.cs" />
     <Compile Remove="SerilogLoggingService.cs" />
   </ItemGroup>
 
@@ -35,6 +38,7 @@
     <Folder Include="EventBus\Models\" />
     <Folder Include="EventBus\Services\" />
     <Folder Include="Handlers\" />
+    <Folder Include="Replay\" />
     <Folder Include="Services\" />
     <Folder Include="Transformers\" />
   </ItemGroup>

@@ -6,10 +6,8 @@
     using Fabric.Realtime.Core;
     using Fabric.Realtime.Data.Stores;
     using Fabric.Realtime.Engine.Configuration;
-    using Fabric.Realtime.Engine.EventBus.Services;
     using Fabric.Realtime.Engine.Handlers;
     using Fabric.Realtime.Engine.Record;
-    using Fabric.Realtime.Engine.Replay;
     using Fabric.Realtime.Engine.Transformers;
     using Fabric.Realtime.Services;
 
@@ -67,7 +65,6 @@
             // Register application services
             services.AddSingleton<IRealtimeConfiguration>(new RealtimeConfiguration(this.Configuration));
             services.AddSingleton<IBackgroundWorker, MessageReceiveWorker>();
-            services.AddSingleton<IBackgroundWorker, MessageReplayWorker>();
             services.AddTransient<IMessageStoreService, MessageStoreService>();
             services.AddTransient<IRealtimeSubscriptionService, RealtimeSubscriptionService>();
 
@@ -85,10 +82,8 @@
                 });
 
             // Interface engine services
-            services.AddSingleton<MessageTypeSubscriberService, MessageTypeSubscriberService>();
             services.AddSingleton<IInterfaceEngineEventHandler, InterfaceEngineEventHandler>();
             services.AddSingleton<IInterfaceEngineMessageTransformer>(new InterfaceEngineMessageTransformer());
-            services.AddSingleton<InterfaceEngineQueueService, InterfaceEngineQueueService>();
 
             // Use Swashbuckle for documenting APIs built on ASP.NET Core
             services.AddSwaggerGen(
@@ -125,12 +120,8 @@
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-                {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
-                });
+            app.UseMvc(
+                routes => { routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}"); });
 
             // Insert middleware to expose the generated Swagger as JSON endpoint.
             app.UseSwagger();
@@ -138,16 +129,9 @@
             // Insert the swagger-ui middleware to expose interactive documentation.
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fabric.Realtime API V1"); });
 
-            // Initialize services 
+            // Create database if it does not exist. 
             var context = app.ApplicationServices.GetRequiredService<RealtimeContext>();
-            DbInitializer.Initialize(context);
-
-            // TODO Find a better way to do this?
-            MessageTypeSubscriberService messageEventSubscriberService = app.ApplicationServices.GetRequiredService<MessageTypeSubscriberService>();
-            messageEventSubscriberService.Initialize();
-
-            var interfaceEngineQueueService = app.ApplicationServices.GetRequiredService<InterfaceEngineQueueService>();
-            interfaceEngineQueueService.Initialize();
+            context.Database.EnsureCreated();
         }
     }
 }
