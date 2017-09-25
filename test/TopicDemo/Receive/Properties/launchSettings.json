@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Receive": {
+      "commandName": "Project",
+      "commandLineArgs": "mirth.connect.inbound"
+    }
+  }
+}
