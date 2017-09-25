@@ -2,6 +2,10 @@
 Provides a real-time messaging service where the client can subscribe to a queue to receive HL7 messages
 
 To run this:
+1. Run Fabric.Docker.InterfaceEngine
+docker run -d -p 8080:8080 -p 8443:8443 -p 6661:6661 --name fabric.docker.interfaceengine healthcatalyst/fabric.docker.interfaceengine
+docker exec fabric.docker.interfaceengine /opt/mirthconnect_channels/deployrealtimechannel.sh
+
 1. Run RabbitMQ docker:
 docker run -d --hostname fabric.realtime.rabbithost --name fabric.realtime.rabbitmq rabbitmq:3
 documentation: https://hub.docker.com/_/rabbitmq/
