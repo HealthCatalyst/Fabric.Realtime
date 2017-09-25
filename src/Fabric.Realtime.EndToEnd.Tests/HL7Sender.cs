@@ -36,6 +36,8 @@
                 string page = Encoding.ASCII.GetString(bytesReceived, 0, bytes);
                 s.Close();
 
+                Console.Write(page);
+
                 // Check to see if it was successful
                 if (page.Contains("MSA|AA"))
                 {

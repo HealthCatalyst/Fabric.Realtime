@@ -15,7 +15,10 @@ EVN|A01|20110613083617|||
 PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999||||||||||||||||||||
 PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
-            HL7Sender.SendHL7("localhost", 8443, message);
+            var result = HL7Sender.SendHL7("localhost", 6661, message);
+
+            Assert.IsTrue(result);
+            // HL7Sender.SendHL7("127.0.0.1", 6661, message);
         }
     }
 }
