@@ -7,6 +7,6 @@
     /// </summary>
     public interface IInterfaceEngineEventHandler
     {
-        Task HandleMessage(string message);
+        bool HandleMessage(string message);
     }
 }
