@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{853D988D-350C-4D1F-8DFA-A56CDF139181}"
 EndProject
@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Domain", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Services.UnitTests", "..\test\UnitTests\Fabric.Realtime.Services.UnitTests\Fabric.Realtime.Services.UnitTests.csproj", "{6875511F-28E2-47FC-9B11-434A1DC1F837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.Engine.UnitTests", "..\test\UnitTests\Fabric.Realtime.Engine.UnitTests\Fabric.Realtime.Engine.UnitTests.csproj", "{C2386C1C-4316-4870-BC16-8D7A27835F84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabric.Realtime.Engine.UnitTests", "..\test\UnitTests\Fabric.Realtime.Engine.UnitTests\Fabric.Realtime.Engine.UnitTests.csproj", "{C2386C1C-4316-4870-BC16-8D7A27835F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fabric.Realtime.EndToEnd.Tests", "Fabric.Realtime.EndToEnd.Tests\Fabric.Realtime.EndToEnd.Tests.csproj", "{7B42D4DD-B133-4217-A8D0-839496151BBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{C2386C1C-4316-4870-BC16-8D7A27835F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2386C1C-4316-4870-BC16-8D7A27835F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2386C1C-4316-4870-BC16-8D7A27835F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B42D4DD-B133-4217-A8D0-839496151BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B42D4DD-B133-4217-A8D0-839496151BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B42D4DD-B133-4217-A8D0-839496151BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B42D4DD-B133-4217-A8D0-839496151BBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{7D496EF6-BFB8-48A4-A578-FF8241007978} = {853D988D-350C-4D1F-8DFA-A56CDF139181}
 		{6875511F-28E2-47FC-9B11-434A1DC1F837} = {1AC482B3-640B-4E5C-AE67-FC3E8359B85B}
 		{C2386C1C-4316-4870-BC16-8D7A27835F84} = {1AC482B3-640B-4E5C-AE67-FC3E8359B85B}
+		{7B42D4DD-B133-4217-A8D0-839496151BBB} = {1AC482B3-640B-4E5C-AE67-FC3E8359B85B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CA73924-AE81-4ECC-B16E-0B4A21A3D283}
