@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using Xunit;
 
-namespace Fabric.Realtime.EndToEnd.Tests
+namespace Fabric.Realtime.EndToEndTests
 {
-    [TestClass]
     public class EndToEndTester
     {
-        [TestMethod]
+        [Fact]
         public void TestSendingHL7()
         {
             // from http://www.mieweb.com/wiki/Sample_HL7_Messages#ADT.5EA01
@@ -17,7 +17,7 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
             var result = HL7Sender.SendHL7("localhost", 6661, message);
 
-            Assert.IsTrue(result);
+            Assert.True(result);
             // HL7Sender.SendHL7("127.0.0.1", 6661, message);
         }
     }

@@ -1,9 +1,11 @@
-﻿namespace Fabric.Realtime.EndToEnd.Tests
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Fabric.Realtime.EndToEndTests
 {
-    using System;
     using System.Net;
     using System.Net.Sockets;
-    using System.Text;
 
     public class HL7Sender
     {
