@@ -8,7 +8,6 @@
     <Compile Remove="EventBus\Models\MessageBroker.cs" />
     <Compile Remove="EventBus\Models\MessageBrokerExchange.cs" />
     <Compile Remove="EventBus\Models\MessageBrokerExchangeClient.cs" />
-    <Compile Remove="EventBus\Services\ExternalApplicationQueueService.cs" />
     <Compile Remove="SerilogLoggingService.cs" />
   </ItemGroup>
 
@@ -33,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="EventBus\Models\" />
-    <Folder Include="EventBus\Services\" />
     <Folder Include="Handlers\" />
     <Folder Include="Services\" />
     <Folder Include="Transformers\" />

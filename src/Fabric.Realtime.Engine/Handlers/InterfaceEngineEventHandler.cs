@@ -83,7 +83,7 @@
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        public Task HandleMessage(string rawMessage)
+        public bool HandleMessage(string rawMessage)
         {
             // 1. Deserialize
             InterfaceEngineMessage interfaceEngineMessage =
@@ -101,8 +101,7 @@
             // 4. Forward to interested parties via message exchange
             this.Foward(message);
 
-            // 5. Return task
-            return Task.CompletedTask;
+            return true;
         }
 
         /// <summary>
