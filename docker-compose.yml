@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  interface.engine:
+    image: healthcatalyst/fabric.docker.interfaceengine
+    container_name: fabric.interface.engine
+    ports:
+      - 8080:8080
+      - 8443:8443
+      - 6661:6661
+    depends_on:
+      - rabbitmq
+      
+  rabbitmq:
+    image: rabbitmq
+    container_name: fabric.rabbitmq
+    ports: 
+      - 5672:5672
+      - 15672:15672
+
