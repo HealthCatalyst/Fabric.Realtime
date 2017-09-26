@@ -25,7 +25,7 @@ namespace Fabric.Realtime.EndToEndTests
 
                 // If the socket could not get a connection, then return false.
                 if (s == null)
-                    return false;
+                    throw new Exception("Could not connect to Mirth");
 
                 // Send message to the server.
                 s.Send(bytesSent, bytesSent.Length, 0);
@@ -47,12 +47,12 @@ namespace Fabric.Realtime.EndToEndTests
                 }
                 else
                 {
-                    return false;
+                    throw new Exception($"Got invalid response from Mirth:[{page}]");
                 }
             }
             catch (Exception)
             {
-                return false;
+                throw;
             }
         }
 
