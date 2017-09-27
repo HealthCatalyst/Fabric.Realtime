@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Subscription": {
+      "commandName": "Project",
+      "commandLineArgs": "--rabbit localhost --exchange-name HL7-CAP --exchange-type topic --routing-key #.A01"
+    }
+  }
+}
