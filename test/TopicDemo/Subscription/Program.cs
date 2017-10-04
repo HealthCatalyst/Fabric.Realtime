@@ -1,33 +1,38 @@
-﻿namespace Subscribe
+namespace Subscribe
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using EntryPoint;
-
-    using RabbitMQ.Client;
-    using RabbitMQ.Client.Events;
-    using RabbitMQ.Client.MessagePatterns;
 
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
     public class Program
     {
-        private static CancellationToken cancellationToken = new CancellationToken();
+        private static readonly CancellationToken CancellationToken = new CancellationToken();
 
         public static void Main(string[] args)
         {
             var arguments = ParseCommandLineArgs(args);
 
-            var subscriber = new Subscriber();
+            var subscriber = new MessageConsumer(new BrokerFactory());
             subscriber.RunAsync(
                 arguments,
-                cancellationToken,
+                CancellationToken,
                 e =>
                     {
-                        Console.WriteLine(e.DeliveryTag);
+                        try
+                        {
+                            var messageString = Encoding.UTF8.GetString(e.Body);
+                            Console.WriteLine($"{e.DeliveryTag}: {messageString}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            return false;
+                        }
+
                         return true;
                     }).Wait();
         }
@@ -36,38 +41,42 @@
         {
             if (args.Length == 0)
             {
-                var helpText = Cli.GetHelp<SubscribeArguments>();
+                var helpText = Cli.GetHelp<SubscribeCliArguments>();
                 Console.WriteLine(helpText);
                 Environment.Exit(0);
             }
 
             // Parse the command line arguments
-            var arguments = Cli.Parse<SubscribeArguments>(args);
-
+            var cliArguments = Cli.Parse<SubscribeCliArguments>(args);
+            var exchangeType = Enum.TryParse(cliArguments.ExchangeType, true, out ExchangeType parsedType)
+                                            ? parsedType
+                                            : ExchangeType.Topic;
+            Console.WriteLine(exchangeType);
+            
             return new SubscriptionDefinition
                        {
                            Broker =
-                               new BrokerHostConfiguration { Host = arguments.RabbitHostName },
+                               new BrokerHostConfiguration { Host = cliArguments.RabbitHostName },
                            Exchange =
                                new ExchangeDefinition
                                    {
-                                       Name = arguments.ExchangeName,
-                                       Type = ExchangeType.Topic,
+                                       Name = cliArguments.ExchangeName,
+                                       Type = exchangeType,
                                        IsDurable = true,
                                        IsAutoDelete = false
                                    },
                            Queue = new QueueDefinition
                                        {
                                            Name =
-                                               $"{arguments.ExchangeName}-{Guid.NewGuid().ToString("N").ToLower()}",
+                                               $"{cliArguments.ExchangeName}-{Guid.NewGuid().ToString("N").ToLower()}",
                                            IsDurable = false,
                                            IsAutoDelete = true
                                        },
-                           RoutingKey = arguments.RoutingKey
+                           RoutingKey = cliArguments.RoutingKey
                        };
         }
 
-        ////private static async Task RunAsync(SubscribeArguments options)
+        ////private static async Task RunAsync(SubscribeCliArguments options)
         ////{
         ////    while (true)
         ////    {
@@ -86,7 +95,7 @@
         ////    // ReSharper disable once FunctionNeverReturns
         ////}
 
-        ////private static async Task ReceiveMessagesAsync(SubscribeArguments options)
+        ////private static async Task ReceiveMessagesAsync(SubscribeCliArguments options)
         ////{
         ////    Console.WriteLine($"Connection to RabbitMQ at '{options.RabbitHostName}'");
         ////    var factory = new ConnectionFactory { HostName = options.RabbitHostName };

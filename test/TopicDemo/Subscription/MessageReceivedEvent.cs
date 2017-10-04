@@ -3,7 +3,7 @@
     /// <summary>
     /// The message event.
     /// </summary>
-    public class SubscriberMessage
+    public class MessageReceivedEvent
     {
         /// <summary>
         /// Gets or sets the body.

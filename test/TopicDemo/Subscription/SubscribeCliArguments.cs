@@ -7,12 +7,12 @@
     /// <summary>
     /// The subscribe command line arguments.
     /// </summary>
-    public class SubscribeArguments : BaseCliArguments
+    public class SubscribeCliArguments : BaseCliArguments
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SubscribeArguments"/> class.
+        /// Initializes a new instance of the <see cref="SubscribeCliArguments"/> class.
         /// </summary>
-        public SubscribeArguments()
+        public SubscribeCliArguments()
             : base("Subscribe")
         {
         }

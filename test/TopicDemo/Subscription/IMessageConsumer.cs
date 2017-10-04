@@ -5,9 +5,9 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// The Subscriber interface.
+    /// The MessageConsumer interface.
     /// </summary>
-    public interface ISubscriber
+    public interface IMessageConsumer
     {
         /// <summary>
         /// Async task for receiving messages from a message exchange.
@@ -24,6 +24,6 @@
         /// <returns>
         /// The <see cref="Task"/> for this async operation.
         /// </returns>
-        Task RunAsync(SubscriptionDefinition subscription, CancellationToken cancellationToken, Func<SubscriberMessage, bool> handler);
+        Task RunAsync(SubscriptionDefinition subscription, CancellationToken cancellationToken, Func<MessageReceivedEvent, bool> handler);
     }
 }
