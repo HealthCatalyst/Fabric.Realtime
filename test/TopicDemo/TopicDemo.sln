@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Receive", "Receive\Receive.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subscribe", "Subscription\Subscribe.csproj", "{595D345A-174D-412C-AE8A-D897EF2B3685}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueManagement", "QueueManagement\QueueManagement.csproj", "{6A3D72B2-4305-4DA5-801B-C5F57252746F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{595D345A-174D-412C-AE8A-D897EF2B3685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{595D345A-174D-412C-AE8A-D897EF2B3685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{595D345A-174D-412C-AE8A-D897EF2B3685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3D72B2-4305-4DA5-801B-C5F57252746F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3D72B2-4305-4DA5-801B-C5F57252746F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3D72B2-4305-4DA5-801B-C5F57252746F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3D72B2-4305-4DA5-801B-C5F57252746F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
